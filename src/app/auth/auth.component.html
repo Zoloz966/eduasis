@@ -1,0 +1,100 @@
+<section class="m-0">
+  <div class="flex flex-column md:flex-row w-full m-0">
+    <div
+      class="col-12 md:col-5 relative px-0 py-0 h-4rem md:h-screen hidden md:flex flex-column justify-content-center align-items-center overflow-hidden"
+    >
+      <div
+        class="absolute top-0 left-0 bg-black-alpha-40 w-full h-screen"
+      ></div>
+      <img
+        src="../../assets/bg-auth.png"
+        alt="bg-auth-login"
+        class=" block h-full"
+      />
+    </div>
+    <div
+      class="col-12 md:col-7 md:h-screen flex flex-column align-items-center gap-4 pt-6 px-0 md:px-8 shadow-8"
+    >
+      <div class="w-12 px-6 flex flex-column align-items-center gap-4">
+        <div class="w-12 h-13rem w-13rem">
+          <img
+            src="../../assets/logo.png"
+            alt="logo"
+            class="w-full h-full"
+          />
+        </div>
+        <div class="w-full text-center text-2xl font-bold">
+          Eduación Asistida
+        </div>
+      </div>
+      <div class="w-12 px-6 flex flex-column align-items-center gap-3">
+        <div class="w-12 mt-2 text-lg font-semibold text-center">
+          ¡A Estudiar! Ingrese ahora
+        </div>
+        <div class="w-12 flex flex-column align-items-center gap-3">
+          <div class="w-12 md:w-9 flex flex-column gap-2">
+            <div class="flex gap-2 md:gap-3">
+              <i class="pi pi-user ml-2"></i>
+              <span class="font-medium">Correo</span>
+            </div>
+            <input
+              id="email"
+              type="text"
+              [(ngModel)]="email"
+              pInputText
+              placeholder="Escribar el correo del usuario"
+            />
+          </div>
+          <div class="w-12 md:w-9 flex flex-column gap-2">
+            <div class="flex gap-2 md:gap-3">
+              <i class="pi pi-lock ml-2"></i>
+              <span class="font-medium">Contraseña</span>
+            </div>
+            <div class="relative">
+              <input
+                pInputText
+                [type]="showPassword ? 'text':'password'"
+                name="password"
+                [(ngModel)]="password"
+                class="w-full"
+                id="password"
+                placeholder="••••••••"
+              />
+              <i
+                style="margin-top: 10px;"
+                [ngClass]="showPassword ? 'pi pi-eye absolute top-0 right-0 mr-3 pt-1 cursor-pointer':'pi pi-eye-slash absolute top-0 right-0 mr-3 pt-1 cursor-pointer' "
+                (click)="showPassword = !showPassword"
+              ></i>
+            </div>
+          </div>
+          <div class="w-12 md:w-9 -mt-1 flex justify-content-between">
+            <p-checkbox
+              name="remember"
+              labelStyleClass="text-sm font-light"
+              [binary]="true"
+              [(ngModel)]="remember"
+              label="Recuérdame"
+              inputId="id"
+            ></p-checkbox>
+            <span
+              class="text-sm text-primary-400 cursor-pointer hover:underline text-right"
+              >¿Olvidaste tu contraseña?</span
+            >
+          </div>
+        </div>
+      </div>
+      <div
+        class="w-12 h-5rem md:h-15rem px-6 flex flex-column align-items-center"
+      >
+        <div class="w-12 md:w-9 mt-2">
+          <p-button
+            label="Ingresar"
+            styleClass="w-full"
+            (onClick)="authUser()"
+          ></p-button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<p-toast position="top-center"></p-toast>
