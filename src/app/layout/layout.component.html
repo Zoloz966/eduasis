@@ -1,0 +1,20 @@
+<div class="flex w-full">
+  @if (!layoutService.isMobile()) {
+  <div class="flex" style="width: 29%">
+    <app-side-menu />
+  </div>
+  }
+  <div class="w-full flex flex-column">
+    <router-outlet />
+    @if (layoutService.isMobile()) {
+    <div class="w-full fixed bottom-0">
+      <app-mobile-menu />
+    </div>
+    }
+  </div>
+  @if (!layoutService.isMobile()) {
+  <div style="width: 32%" class="surface-200">
+    <app-profile-menu />
+  </div>
+  }
+</div>

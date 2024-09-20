@@ -1,0 +1,139 @@
+<div
+  class="w-15rem fixed bg-white h-screen shadow-2 flex flex-column transition-ease-in-out transition-duration-500 align-items-center z-2 overflow-auto"
+>
+  <div class="w-full px-4 md:py-2">
+    <div class="flex align-items-center justify-content-center w-12 mt-3 gap-1">
+      <img
+        src="../../../assets/title-logo.png"
+        alt="logo-antuca"
+        class="w-10 -ml-4"
+      />
+      <div class="w-1rem h-1rem border-circle bg-primary-300 -mb-4 -ml-2"></div>
+    </div>
+    @if (layoutService.isMobile()) {
+    <p-button
+      icon="pi pi-times"
+      severity="secondary"
+      [rounded]="true"
+      [outlined]="true"
+      styleClass="h-2rem w-2rem absolute top-0 right-0 mt-4 mr-4"
+    ></p-button>
+    }
+  </div>
+  <div class="w-full flex flex-column gap-3 px-3 mt-5 w-">
+    <div
+      (click)="router.navigateByUrl('dashboard')"
+      [ngClass]="
+        router.url.includes('dashboard')
+          ? 'w-full bg-primary border-round-xl h-3rem flex align-items-center gap-3 pl-4 cursor-pointer'
+          : 'w-full cursor-pointer hover:surface-100 border-round-xl h-3rem flex align-items-center gap-3 pl-4'
+      "
+    >
+      <i
+        [class]="
+          router.url.includes('dashboard')
+            ? 'pi pi-home font-medium'
+            : 'pi pi-home text-500 font-medium'
+        "
+      ></i>
+      <div
+        [class]="
+          router.url.includes('dashboard')
+            ? 'text-white font-medium'
+            : 'text-500 font-medium'
+        "
+      >
+        Dashboard
+      </div>
+    </div>
+    <div
+      (click)="router.navigateByUrl('virtual-assistant')"
+      [ngClass]="
+        router.url.includes('virtual-assistant')
+          ? 'w-full bg-primary border-round-xl h-3rem flex align-items-center gap-3 pl-4 cursor-pointer'
+          : 'w-full cursor-pointer hover:surface-100 border-round-xl h-3rem flex align-items-center gap-3 pl-4'
+      "
+    >
+      <i
+        [class]="
+          router.url.includes('virtual-assistant')
+            ? 'pi pi-comment font-medium'
+            : 'pi pi-comment text-500 font-medium'
+        "
+      ></i>
+      <div
+        [class]="
+          router.url.includes('virtual-assistant')
+            ? 'text-white font-medium'
+            : 'text-500 font-medium'
+        "
+      >
+        Profesor Virtual
+      </div>
+    </div>
+    <div
+      class="w-full cursor-pointer hover:surface-100 border-round-xl h-3rem flex align-items-center gap-3 pl-4"
+    >
+      <i class="pi pi-list-check text-500 font-medium"></i>
+      <div class="text-500 font-medium">Actividades</div>
+    </div>
+    <div
+      class="w-full cursor-pointer hover:surface-100 border-round-xl h-3rem flex align-items-center gap-3 pl-4"
+    >
+      <i class="pi pi-briefcase text-500 font-medium"></i>
+      <div class="text-500 font-medium">Maestros</div>
+    </div>
+    <div
+      class="w-full cursor-pointer hover:surface-100 border-round-xl h-3rem flex align-items-center gap-3 pl-4"
+    >
+      <i class="pi pi-users text-500 font-medium"></i>
+      <div class="text-500 font-medium">Estudiantes</div>
+    </div>
+
+    <div
+      class="relative mt-5 w-full border-round-xl overflow-hidden text-ra bg-primary h-8rem flex flex-column gap-2 pl-4 pt-3"
+    >
+      <div class="w-full text-white font-medium">
+        Reporta cualquier
+        <br />
+        error en la <br />
+        plataforma
+      </div>
+      <p-button
+        severity="secondary"
+        label="Soporte"
+        styleClass=" bg-white text-900 h-2rem text-sm border-white"
+      />
+      <div
+        class="absolute bottom-0 right-0 w-7rem h-7rem -mb-5 -mr-5 bg-white opacity-30 border-circle"
+      ></div>
+      <div class="absolute top-0 right-0 mt-3 mr-3 flex flex-column gap-1">
+        <div class="flex gap-1">
+          <div class="bg-white dot-card border-circle"></div>
+          <div class="bg-white dot-card border-circle"></div>
+          <div class="bg-white dot-card border-circle"></div>
+          <div class="bg-white dot-card border-circle"></div>
+        </div>
+        <div class="flex gap-1">
+          <div class="bg-white dot-card border-circle"></div>
+          <div class="bg-white dot-card border-circle"></div>
+          <div class="bg-white dot-card border-circle"></div>
+          <div class="bg-white dot-card border-circle"></div>
+        </div>
+        <div class="flex gap-1">
+          <div class="bg-white dot-card border-circle"></div>
+          <div class="bg-white dot-card border-circle"></div>
+          <div class="bg-white dot-card border-circle"></div>
+          <div class="bg-white dot-card border-circle"></div>
+        </div>
+        <div class="flex gap-1">
+          <div class="bg-white dot-card border-circle"></div>
+          <div class="bg-white dot-card border-circle"></div>
+          <div class="bg-white dot-card border-circle"></div>
+          <div class="bg-white dot-card border-circle"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<p-confirmDialog styleClass="w-auto md:w-5" position="bottom"></p-confirmDialog>
