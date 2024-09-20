@@ -88,7 +88,11 @@
     </div>
   </div>
   <div class="px-3 w-full flex flex-column gap-3 mt-3">
-    <p-button styleClass="w-full text-sm" label="Cerrar sesión" />
+    <p-button
+      styleClass="w-full text-sm"
+      label="Cerrar sesión"
+      (onClick)="closeSession()"
+    />
   </div>
 </div>
 <p-confirmDialog styleClass="w-auto md:w-5" position="bottom"></p-confirmDialog>

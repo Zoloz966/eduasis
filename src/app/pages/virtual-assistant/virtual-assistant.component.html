@@ -1,1 +1,48 @@
-<p>virtual-assistant works!</p>,
+<div class="flex flex-column gap-2 align-items-center -ml-3 w-full">
+  <div class="w-11 h-screen relative -ml-3 flex flex-column mt-3 gap-2">
+    <div class="text-2xl font-semibold mt-3 w-full">Asistente virtual</div>
+
+    <div class="w-full flex-column flex gap-3 py-3">
+      <div class="w-9 p-2 surface-100 border-round-lg text-500">
+        Hola {{ usersService.user()!.name }} ¿Cómo puedo ayudarte?
+      </div>
+      @for (mesage of messages; track $index) {
+      <div
+        [class]="
+          mesage.user === 'IA'
+            ? 'w-9 p-2 surface-100 border-round-lg text-500'
+            : 'w-9 align-self-end p-2 bg-primary-400 text-white border-round-lg text-500'
+        "
+      >
+        {{ mesage.message }}
+      </div>
+      }
+    </div>
+
+    <div
+      class="flex gap-2 h-4rem bg-primary-400 fixed bottom-0 -ml-5 px-3 py-2"
+      style="width: 62%"
+    >
+      @if (loadingResponse) {
+
+      <i
+        class="pi pi-spin pi-spinner absolute right-0 top-0 mt-4 text-500 text-2xl mr-8"
+      ></i>
+      }
+      <input
+        pInputText
+        [(ngModel)]="prompt"
+        placeholder="Interactue con la IA"
+        class="w-full h-3rem"
+        type="text"
+      />
+      <p-button
+        (onClick)="sendPrompt()"
+        icon="pi pi-send text-white"
+        styleClass="border-2 border-white"
+        [outlined]="true"
+        size="large"
+      ></p-button>
+    </div>
+  </div>
+</div>

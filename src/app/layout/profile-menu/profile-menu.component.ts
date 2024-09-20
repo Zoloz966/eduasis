@@ -8,6 +8,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DividerModule } from 'primeng/divider';
 import { MenuModule } from 'primeng/menu';
 import { CalendarModule } from 'primeng/calendar';
+import { UsersService } from '@services/users.service';
 
 @Component({
   selector: 'app-profile-menu',
@@ -18,7 +19,7 @@ import { CalendarModule } from 'primeng/calendar';
     MenuModule,
     ConfirmDialogModule,
     DividerModule,
-    CalendarModule
+    CalendarModule,
   ],
   providers: [ConfirmationService],
   templateUrl: './profile-menu.component.html',
@@ -31,4 +32,8 @@ import { CalendarModule } from 'primeng/calendar';
 export class ProfileMenuComponent {
   public confirmationService = inject(ConfirmationService);
   public layoutService = inject(LayoutService);
+  public usersService = inject(UsersService);
+  public closeSession() {
+    this.usersService.closeSession();
+  }
 }

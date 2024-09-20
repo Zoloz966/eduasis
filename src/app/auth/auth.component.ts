@@ -51,7 +51,7 @@ export default class AuthComponent {
       (res) => {
         this.messageService.add({
           severity: 'success',
-          summary: 'Error',
+          summary: 'Usuario autorizado',
           detail: `¡Hola ${res.user.name}! Tu accesso fue exitoso`,
         });
         setTimeout(()=>{

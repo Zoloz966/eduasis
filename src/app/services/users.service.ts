@@ -191,6 +191,10 @@ export class UsersService {
     return this.http.get<User>(`${this.env.url_api}/users/${id}`);
   }
 
+  public getBasicPrompt(prompt: string): Observable<any> {
+    return this.http.get(`${this.env.url_api}/openAi/test/${prompt}`);
+  }
+
   public deleteUser(id: number) {
     return this.http.delete(`${this.env.url_api}/users/${id}`).pipe(
       tap((_) => {
