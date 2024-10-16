@@ -57,6 +57,12 @@ export const routes: Routes = [
               import('./pages/subjects-list/subjects-list.component'),
           },
           {
+            path: 'teachers-list',
+            title: 'Lista de maestros',
+            loadComponent: () =>
+              import('./pages/teachers-list/teachers-list.component'),
+          },
+          {
             path: '',
             redirectTo: 'admin',
             pathMatch: 'full',

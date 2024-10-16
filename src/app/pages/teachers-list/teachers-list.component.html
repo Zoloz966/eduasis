@@ -1,0 +1,200 @@
+<section class="w-full grid m-0 p-0">
+  <div class="col-6 md:col-3 px-3">
+    <p-button
+      styleClass="w-full h-4rem bg-primary-400"
+
+      label="+ Agregar Maestro"
+    ></p-button>
+  </div>
+  <div class="col-6 md:col-9 px-3">
+    <p-overlayPanel #op>
+      <div class="flex gap-2 flex-column align-items-center w-full">
+        <div class="flex  gap-1">
+          <div class="text-xs text-700">Seleccionados</div>
+          <div class="text-sm md:text-base text-center">{{ selectedTeachers.length }}</div>
+        </div>
+        <p-button
+          severity="contrast"
+          label="Activar"
+          [outlined]="true"
+          icon="pi pi-check-square"
+          styleClass="surface-50 border-0 w-8rem "
+        />
+        <p-button
+          severity="warning"
+          label="Editar"
+          styleClass="bg-orange-500 border-0 text-white w-8rem"
+        />
+        <p-button
+          severity="danger"
+          label="Eliminar"
+          styleClass="bg-red-600 border-0 text-white w-8rem"
+        />
+      </div>
+    </p-overlayPanel>
+    <div
+      (click)="layoutService.isMobile() ? op.toggle($event) : ''"
+      class="w-full h-4rem  flex px-3 surface-50 justify-content-between"
+      [ngClass]="layoutService.isMobile() ? 'cursor-pointer hover:surface-50' : ''"
+    >
+      <div class="flex gap-2 align-items-center">
+        <i class="pi pi-briefcase px-2 text-2xl"></i>
+        <div class="flex flex-column gap-1">
+          <div class="text-xs text-400">Total de maestros</div>
+          <div class="text-sm md:text-base">{{ teachers().length }} maestro(s)</div>
+        </div>
+      </div>
+      @if (!layoutService.isMobile()) {
+      <div class="flex gap-2 align-items-center">
+        <div class="flex flex-column gap-1">
+          <div class="text-xs text-400">Seleccionados</div>
+          <div class="text-sm md:text-base text-center">{{ selectedTeachers.length }}</div>
+        </div>
+        <p-button
+          severity="contrast"
+          label="Activar"
+          [outlined]="true"
+          icon="pi pi-check-square"
+          styleClass="bg-white border-0 "
+        />
+        <p-button
+          severity="warning"
+          label="Editar"
+          styleClass="bg-orange-500 border-0 text-white"
+        />
+        <p-button
+          severity="danger"
+          label="Eliminar"
+          styleClass="bg-red-600 border-0 text-white"
+        />
+      </div>
+      }
+    </div>
+  </div>
+</section>
+
+<div class="px-3">
+  <div class="w-full border-300 border-round mt-4 overflow-hidden">
+    <p-table
+      [value]="teachers()"
+      styleClass="p-datatable-sm p-datatable-striped "
+      [paginator]="true"
+      dataKey="id_user"
+      [rows]="10"
+      [(selection)]="selectedTeachers"
+      [showCurrentPageReport]="true"
+      currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} useres"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th class="pl-5 surface-50 border-round-left"><p-tableHeaderCheckbox /></th>
+          <th
+            pSortableColumn="name"
+            class="white-space-nowrap surface-50 h-3rem"
+          >
+            Nombre <p-sortIcon class="ml-8" field="name" />
+          </th>
+          <th
+            pSortableColumn="email"
+            class="white-space-nowrap surface-50 h-3rem"
+          >
+            Rol <p-sortIcon class="ml-8" field="email" />
+          </th>
+
+          <th
+            pSortableColumn="phone"
+            class="white-space-nowrap surface-50 h-3rem"
+          >
+            Celular <p-sortIcon class="ml-8" field="phone" />
+          </th>
+          <th
+            pSortableColumn="createAt"
+            class="white-space-nowrap surface-50 h-3rem"
+          >
+            Fecha de registro <p-sortIcon class="ml-8" field="createAt" />
+          </th>
+          <th class="surface-50 border-round-right"></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-user>
+        @if (loading()) { @for (skeleton of skeletonTab; track $index) {
+        <tr>
+          <td class="pl-3 flex gap-2 align-items-center">
+            <p-skeleton size="2rem" shape="circle"></p-skeleton>
+            <p-skeleton height="1rem" width="8rem"></p-skeleton>
+          </td>
+          <td>
+            <p-skeleton height="1rem" width="9rem"></p-skeleton>
+          </td>
+          <td>
+            <p-skeleton height="1rem" width="9rem"></p-skeleton>
+          </td>
+          <td>
+            <p-skeleton height="1rem" width="9rem"></p-skeleton>
+          </td>
+          <td class="flex gap-2 align-items-center">
+            <p-skeleton size="2rem" shape="circle"></p-skeleton>
+            <p-skeleton size="2rem" shape="circle"></p-skeleton>
+            <p-skeleton size="2rem" shape="circle"></p-skeleton>
+          </td>
+        </tr>
+        } } @else {
+        <tr>
+          <td class="pl-5">
+            <p-tableCheckbox [value]="user" />
+          </td>
+          <td class="">
+            <div class="flex gap-2 align-items-center">
+              @if (user.photo !== '') {
+              <div class="h-2rem w-2rem surface-200 border-circle">
+                <p-image
+                  [src]="user.photo"
+                  [preview]="true"
+                  imageClass="h-2rem w-2rem border-circle"
+                  [alt]="user.name"
+                />
+              </div>
+              }
+              <span>{{ user.name }} </span>
+            </div>
+          </td>
+          <td>
+            <div class="flex align-items-center">
+              <span>{{ user.role.name }} </span>
+            </div>
+          </td>
+          <td>
+            <div class="flex align-items-center">
+              <span>{{ user.phone }} </span>
+            </div>
+          </td>
+          <td>{{ user.created_at.split('T')[0] }}</td>
+          <td class="white-space-nowrap">
+            <p-button
+              severity="secondary"
+              icon="pi pi-pencil"
+              [rounded]="true"
+              [text]="true"
+              styleClass="h-2rem w-2rem ml-2"
+            ></p-button>
+            <p-button
+              icon="pi pi-trash"
+              severity="secondary"
+              [rounded]="true"
+              [text]="true"
+              styleClass="h-2rem w-2rem ml-2"
+            ></p-button>
+          </td>
+        </tr>
+        }
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="6">
+            <app-card-empty-list nameEmptyList="maestros"></app-card-empty-list>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
