@@ -9,7 +9,7 @@
       <img
         src="../../assets/bg-auth.png"
         alt="bg-auth-login"
-        class=" block h-full"
+        class="block h-full"
       />
     </div>
     <div
@@ -17,19 +17,23 @@
     >
       <div class="w-12 px-6 flex flex-column align-items-center gap-4">
         <div class="w-12 h-13rem w-13rem">
-          <img
-            src="../../assets/logo.png"
-            alt="logo"
-            class="w-full h-full"
-          />
+          <img src="../../assets/logo.png" alt="logo" class="w-full h-full" />
         </div>
         <div class="w-full text-center text-2xl font-bold">
           Eduación Asistida
         </div>
       </div>
       <div class="w-12 px-6 flex flex-column align-items-center gap-3">
-        <div class="w-12 mt-2 text-lg font-semibold text-center">
+        <div class="w-12  text-lg font-semibold text-center">
           ¡A Estudiar! Ingrese ahora
+        </div>
+        <div class="w-12 mt-1 flex justify-content-center align-items-center">
+          <p-selectButton
+            [options]="stateOptions"
+            [(ngModel)]="value"
+            optionLabel="label"
+            optionValue="value"
+          />
         </div>
         <div class="w-12 flex flex-column align-items-center gap-3">
           <div class="w-12 md:w-9 flex flex-column gap-2">
@@ -53,7 +57,7 @@
             <div class="relative">
               <input
                 pInputText
-                [type]="showPassword ? 'text':'password'"
+                [type]="showPassword ? 'text' : 'password'"
                 name="password"
                 [(ngModel)]="password"
                 class="w-full"
@@ -61,8 +65,12 @@
                 placeholder="••••••••"
               />
               <i
-                style="margin-top: 10px;"
-                [ngClass]="showPassword ? 'pi pi-eye absolute top-0 right-0 mr-3 pt-1 cursor-pointer':'pi pi-eye-slash absolute top-0 right-0 mr-3 pt-1 cursor-pointer' "
+                style="margin-top: 10px"
+                [ngClass]="
+                  showPassword
+                    ? 'pi pi-eye absolute top-0 right-0 mr-3 pt-1 cursor-pointer'
+                    : 'pi pi-eye-slash absolute top-0 right-0 mr-3 pt-1 cursor-pointer'
+                "
                 (click)="showPassword = !showPassword"
               ></i>
             </div>

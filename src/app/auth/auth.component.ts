@@ -12,6 +12,7 @@ import { MessageService } from 'primeng/api';
 import { UserLogin } from '@interfaces/user';
 import { HttpErrorResponse } from '@angular/common/http';
 import { UsersService } from '@services/users.service';
+import { SelectButtonModule } from 'primeng/selectbutton';
 
 @Component({
   standalone: true,
@@ -24,6 +25,7 @@ import { UsersService } from '@services/users.service';
     ButtonModule,
     ToastModule,
     MessagesModule,
+    SelectButtonModule,
   ],
   providers: [MessageService],
   templateUrl: './auth.component.html',
@@ -36,6 +38,14 @@ export default class AuthComponent {
   public password: string = '';
   public showPassword: boolean = false;
   public remember: boolean = false;
+
+  public stateOptions: any[] = [
+    { label: 'Estudiante', value: 'student' },
+    { label: 'Maestro', value: 'teacher' },
+    { label: 'Usuario', value: 'user' },
+  ];
+
+  public value: string = 'user';
 
   constructor(private route: Router) {
     this.email = localStorage.getItem('email') || '';
@@ -54,9 +64,9 @@ export default class AuthComponent {
           summary: 'Usuario autorizado',
           detail: `¡Hola ${res.user.name}! Tu accesso fue exitoso`,
         });
-        setTimeout(()=>{
-          this.route.navigateByUrl('')
-        }, 3000)
+        setTimeout(() => {
+          this.route.navigateByUrl('');
+        }, 3000);
       },
       (error) => {
         if (error instanceof HttpErrorResponse && error.status === 0) {
