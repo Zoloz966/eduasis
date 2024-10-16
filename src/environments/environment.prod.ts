@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  url_api: 'https://api-edusis.v-max.site',
-  url_public: 'https://sis-edussis.v-max.site',
+  url_api: 'https://eduasis-api.v-max.site',
+  url_public: 'https://eduasis.v-max.site',
 };

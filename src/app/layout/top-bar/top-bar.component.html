@@ -1,0 +1,65 @@
+<div class="w-full pt-2 flex">
+  <div
+    class="col-6 md:col-3 pl-3  text-2xl font-semibold py-2 flex align-items-center"
+  >
+    {{ getTitle() }}
+  </div>
+  @if(!layoutService.isMobile()){
+  <div class="col-6 flex justify-content-between px-2">
+    <p-iconField iconPosition="left">
+      <p-inputIcon styleClass="pi pi-search text-primary" />
+      <input
+        type="text"
+        pInputText
+        placeholder="Search"
+        variant="filled"
+        class="border-0"
+      />
+    </p-iconField>
+    <p-dropdown
+      placeholder="Idioma"
+      variant="filled"
+      styleClass="border-0"
+    ></p-dropdown>
+  </div>
+  }
+  <div
+    class="col-6 md:col-3 px-4 py-2 flex justify-content-between align-items-center"
+  >
+    <div
+      class="w-full justify-content-end md:justify-content-between pl-4 flex gap-3 align-items-center"
+    >
+      @if (!layoutService.isMobile()) {
+
+      <p-button
+        severity="secondary"
+        icon="pi pi-comment text-500 text-lg"
+        [text]="true"
+        styleClass="h-2rem w-2rem relative"
+      >
+        <div
+          style="height: 8px; width: 8px;"
+          class="absolute top-0 right-0 border-circle bg-primary-300 mt-1 mr-1"
+        ></div>
+      </p-button>
+      <p-button
+        severity="secondary"
+        icon="pi pi-bell text-500 text-lg"
+        [text]="true"
+        styleClass="h-2rem w-2rem"
+      />
+      <p-button
+        severity="secondary"
+        icon="pi pi-cog text-500 text-lg"
+        [text]="true"
+        styleClass="h-2rem w-2rem"
+      />
+      }
+      <div
+        class="w-3rem h-3rem bg-primary opacity-80 border-round-lg align-items-center flex justify-content-center"
+      >
+        <i class="pi pi-user text-2xl text-white"></i>
+      </div>
+    </div>
+  </div>
+</div>

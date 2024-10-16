@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { ProfileMenuComponent } from './profile-menu/profile-menu.component';
 import { MobileMenuComponent } from './mobile-menu/mobile-menu.component';
 import { LayoutService } from '@services/layout.service';
+import { TopBarComponent } from './top-bar/top-bar.component';
 
 @Component({
   selector: 'app-layout',
@@ -13,6 +14,7 @@ import { LayoutService } from '@services/layout.service';
     CommonModule,
     SideMenuComponent,
     ProfileMenuComponent,
+    TopBarComponent,
     MobileMenuComponent,
     RouterModule,
   ],

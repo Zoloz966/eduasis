@@ -1,48 +1,204 @@
-<div class="flex flex-column gap-2 align-items-center -ml-3 w-full">
-  <div class="w-11 h-screen relative -ml-3 flex flex-column mt-3 gap-2">
-    <div class="text-2xl font-semibold mt-3 w-full">Asistente virtual</div>
+<div class="flex w-full">
+  <div class="md:col-3 hidden md:flex flex-column px-3 gap-2">
+    <div class="flex w-full gap-2 pt-3">
+      <div
+        class="h-3rem w-3rem surface-100 border-round flex align-items-center justify-content-center"
+      >
+        <i class="text-700 pi pi-user text-2xl"></i>
+      </div>
+      <div class="flex flex-column gap-1">
+        <div class="font-semibold">{{ usersService.user()!.name}}</div>
+        <div class="text-400 text-sm">Estudiante</div>
+      </div>
+    </div>
+    <p-divider type="solid" />
+    <div class="flex justify-content-between px-2">
+      <div class="text-sm text-600 font-semibold">Chats</div>
+      <div class="text-sm text-primary-600 cursor-pointer hover:underline">
+        Ver todos
+      </div>
+    </div>
 
-    <div class="w-full flex-column flex gap-3 py-3">
-      <div class="w-9 p-2 surface-100 border-round-lg text-500">
+    <div
+      class="relative w-full p-2 flex border-round cursor-pointer hover:surface-100"
+    >
+      <div class="text-sm text-600">Chat de ejemplo</div>
+
+      <p-button
+        icon="pi pi-ellipsis-h text-xs"
+        styleClass="h-2rem w-2rem absolute right-0 mr-2 -mt-2"
+        size="small"
+        [text]="true"
+        severity="secondary"
+      ></p-button>
+    </div>
+    <div
+      class="relative w-full p-2 flex border-round cursor-pointer surface-100 hover:surface-50"
+    >
+      <div class="text-sm">Chat de ejemplo</div>
+      <p-button
+        icon="pi pi-ellipsis-h text-xs"
+        styleClass="h-2rem w-2rem absolute right-0 mr-2 -mt-2"
+        size="small"
+        [text]="true"
+        severity="secondary"
+      ></p-button>
+    </div>
+    <div
+      class="relative w-full p-2 flex border-round cursor-pointer hover:surface-100"
+    >
+      <div class="text-sm text-600">Chat de ejemplo</div>
+
+      <p-button
+        icon="pi pi-ellipsis-h text-xs"
+        styleClass="h-2rem w-2rem absolute right-0 mr-2 -mt-2"
+        size="small"
+        [text]="true"
+        severity="secondary"
+      ></p-button>
+    </div>
+    <div
+      class="relative w-full p-2 flex border-round cursor-pointer hover:surface-100"
+    >
+      <div class="text-sm text-600">Chat de ejemplo</div>
+
+      <p-button
+        icon="pi pi-ellipsis-h text-xs"
+        styleClass="h-2rem w-2rem absolute right-0 mr-2 -mt-2"
+        size="small"
+        [text]="true"
+        severity="secondary"
+      ></p-button>
+    </div>
+    <div
+      class="relative w-full p-2 flex border-round cursor-pointer hover:surface-100"
+    >
+      <div class="text-sm text-600">Chat de ejemplo</div>
+
+      <p-button
+        icon="pi pi-ellipsis-h text-xs"
+        styleClass="h-2rem w-2rem absolute right-0 mr-2 -mt-2"
+        size="small"
+        [text]="true"
+        severity="secondary"
+      ></p-button>
+    </div>
+    <div
+      class="relative w-full p-2 flex border-round cursor-pointer hover:surface-100"
+    >
+      <div class="text-sm text-600">Chat de ejemplo</div>
+
+      <p-button
+        icon="pi pi-ellipsis-h text-xs"
+        styleClass="h-2rem w-2rem absolute right-0 mr-2 -mt-2"
+        size="small"
+        [text]="true"
+        severity="secondary"
+      ></p-button>
+    </div>
+  </div>
+  <div
+    class="col-12 md:col-6 surface-50 px-0 min-h-screen relative flex flex-column gap-2"
+  >
+    <div class="col-12 flex-column flex gap-3 py-3">
+      <div class="w-10 p-2 ml-2 surface-100 border-round-lg text-500">
         Hola {{ usersService.user()!.name }} ¿Cómo puedo ayudarte?
       </div>
-      @for (mesage of messages; track $index) {
+      @for (mesage of messages; track mesage; let i = $index, last = $last) {
       <div
         [class]="
           mesage.user === 'IA'
             ? 'w-9 p-2 surface-100 border-round-lg text-500'
             : 'w-9 align-self-end p-2 bg-primary-400 text-white border-round-lg text-500'
         "
-      >
-        {{ mesage.message }}
-      </div>
+        [ngClass]="last ? 'mb-6' : ''"
+        [innerHTML]="formatMessage(mesage.message)"
+      ></div>
       }
     </div>
 
-    <div
-      class="flex gap-2 h-4rem bg-primary-400 fixed bottom-0 -ml-5 px-3 py-2"
-      style="width: 62%"
-    >
-      @if (loadingResponse) {
-
-      <i
-        class="pi pi-spin pi-spinner absolute right-0 top-0 mt-4 text-500 text-2xl mr-8"
-      ></i>
-      }
-      <input
-        pInputText
+    <!-- [style]= "layoutService.isMobile() ? '' : "width: 62%" -->
+    <div class="surface-50 flex gap-2 fixed bottom-0 col-12 md:col-5 px-3 py-2">
+      <textarea
+        rows="1"
         [(ngModel)]="prompt"
-        placeholder="Interactue con la IA"
-        class="w-full h-3rem"
-        type="text"
-      />
+        [disabled]="loadingResponse"
+        cols="30"
+        pInputTextarea
+        [autoResize]="true"
+        placeholder="Interactúe con la IA"
+        class="w-full"
+      >
+      </textarea>
+      <p-button
+        icon="pi pi-paperclip text-400"
+        [text]="true"
+        styleClass="text-sm"
+        size="large"
+      ></p-button>
       <p-button
         (onClick)="sendPrompt()"
         icon="pi pi-send text-white"
-        styleClass="border-2 border-white"
-        [outlined]="true"
+        label="Enviar"
+        [loading]="loadingResponse"
+        styleClass="text-sm"
         size="large"
       ></p-button>
+    </div>
+  </div>
+  <div class="md:col-3 hidden md:flex flex-column gap-3 py-3">
+    <div class="flex justify-content-between px-2">
+      <div class="text-sm text-600 font-semibold">Archivos compartidos</div>
+      <div class="text-sm text-primary-600 cursor-pointer hover:underline">
+        Ver todos
+      </div>
+    </div>
+    <div>
+      @for (file of files; track $index) {
+      <div class="flex w-full">
+        <div class="col-2">
+          <div
+            class="w-3rem h-3rem surface-100 flex justify-content-center align-items-center"
+          >
+            <i class="pi pi-file text-xl"></i>
+          </div>
+        </div>
+        <div class="col-8 ml-2 flex flex-column justify-content-center gap-2">
+          <div class="font-semibold">file.pdf</div>
+          <div class="text-400 text-xs">Octubre 17 de 2024, 13:48</div>
+        </div>
+        <div class="col-2 flex align-items-center justify-content-end">
+          <span class="font-semibold text-xs">1.5 Mb</span>
+        </div>
+      </div>
+      }
+    </div>
+    <p-divider type="solid" styleClass="-mt-1" />
+    <div class="flex justify-content-between px-2">
+      <div class="text-sm text-600 font-semibold">Enlaces compartidos</div>
+      <div class="text-sm text-primary-600 cursor-pointer hover:underline">
+        Ver todos
+      </div>
+    </div>
+    <div>
+      @for (file of files; track $index) {
+      <div class="flex w-full">
+        <div class="col-2">
+          <div
+            class="w-3rem h-3rem surface-100 flex justify-content-center align-items-center"
+          >
+            <i class="pi pi-link text-xl"></i>
+          </div>
+        </div>
+        <div class="col-8 ml-2 flex flex-column justify-content-center gap-2">
+          <div class="font-semibold">facebook.com</div>
+          <div class="text-400 text-xs">Octubre 17 de 2024</div>
+        </div>
+        <div class="col-2 flex align-items-center justify-content-end">
+          <span class="font-semibold text-xs">13:45</span>
+        </div>
+      </div>
+      }
     </div>
   </div>
 </div>
