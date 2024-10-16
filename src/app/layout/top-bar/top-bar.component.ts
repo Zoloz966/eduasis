@@ -37,6 +37,7 @@ export class TopBarComponent implements OnInit {
     if (this.router.url.includes('teachers')) return 'Maestros';
     if (this.router.url.includes('virtual')) return 'Asistente Virtual';
     if (this.router.url.includes('roles')) return 'Roles';
+    if (this.router.url.includes('subjects')) return 'Lista de Materias';
     return '';
   }
 }
