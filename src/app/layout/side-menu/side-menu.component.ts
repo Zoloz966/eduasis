@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { LayoutService } from '@services/layout.service';
+import { UsersService } from '@services/users.service';
 
 import { ConfirmationService, MenuItem } from 'primeng/api';
 
@@ -20,10 +21,17 @@ import { MenuModule } from 'primeng/menu';
       width: 2px;
       height: 2px;
     }
-  `
+  `,
 })
 export class SideMenuComponent {
   public confirmationService = inject(ConfirmationService);
   public layoutService = inject(LayoutService);
-  public router = inject(Router)
+  private usersService = inject(UsersService);
+  public router = inject(Router);
+
+  public items = this.usersService.access();
+
+  constructor() {
+    console.log(this.items);
+  }
 }

@@ -1,13 +1,15 @@
 <div
-  class="w-2 border-right-1 border-200 fixed  bg-white h-screen  flex flex-column transition-ease-in-out transition-duration-500 align-items-center z-2 overflow-auto"
+  style="width: 18%"
+  class="border-right-1 border-200 fixed bg-white h-screen flex flex-column transition-ease-in-out transition-duration-500 align-items-center z-2 overflow-auto"
 >
   <div class="w-full px-4 md:py-2">
-    <div class="flex align-items-center justify-content-center w-12 mt-3 ">
+    <div class="flex align-items-center justify-content-center w-12 mt-3">
       <div class="text-5xl font-bold text-primary-600">Edu</div>
-      <div class="text-5xl font-bold ">Asis</div>
-      <div style="width: 8px; height: 8px;" class="bg-primary border-circle mt-5 ml-1"></div>
-
-
+      <div class="text-5xl font-bold">Asis</div>
+      <div
+        style="width: 8px; height: 8px"
+        class="bg-primary border-circle mt-5 ml-1"
+      ></div>
     </div>
     @if (layoutService.isMobile()) {
     <p-button
@@ -20,32 +22,34 @@
     }
   </div>
   <div class="w-full flex flex-column gap-3 px-3 mt-5 w-">
+    @for (item of items; track $index) {
     <div
-      (click)="router.navigateByUrl('dashboard')"
+      (click)="router.navigateByUrl(item.father + item.link)"
       [ngClass]="
-        router.url.includes('dashboard')
+        router.url.includes(item.link)
           ? 'w-full bg-primary border-round-xl h-3rem flex align-items-center gap-3 pl-4 cursor-pointer'
           : 'w-full cursor-pointer hover:surface-100 border-round-xl h-3rem flex align-items-center gap-3 pl-4'
       "
     >
       <i
         [class]="
-          router.url.includes('dashboard')
-            ? 'pi pi-home font-medium'
-            : 'pi pi-home text-500 font-medium'
+          router.url.includes(item.link)
+            ? 'pi pi-' + item.icon + ' font-medium'
+            : 'pi pi-' + item.icon + ' text-500 font-medium'
         "
       ></i>
       <div
         [class]="
-          router.url.includes('dashboard')
+          router.url.includes(item.link)
             ? 'text-white font-medium'
             : 'text-500 font-medium'
         "
       >
-        Dashboard
+        {{ item.name }}
       </div>
     </div>
-    <div
+    }
+    <!-- <div
       (click)="router.navigateByUrl('virtual-assistant')"
       [ngClass]="
         router.url.includes('virtual-assistant')
@@ -87,7 +91,7 @@
     >
       <i class="pi pi-users text-500 font-medium"></i>
       <div class="text-500 font-medium">Estudiantes</div>
-    </div>
+    </div> -->
 
     <div
       class="relative mt-5 w-full border-round-xl overflow-hidden text-ra bg-primary h-8rem flex flex-column gap-2 pl-4 pt-3"
