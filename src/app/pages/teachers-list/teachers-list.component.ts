@@ -15,6 +15,8 @@ import { ToastModule } from 'primeng/toast';
 import { TagModule } from 'primeng/tag';
 import { LayoutService } from '@services/layout.service';
 import { Teacher } from '@interfaces/teacher';
+import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import TeacherComponent from '@shared/teacher/teacher.component';
 
 @Component({
   selector: 'app-teachers-list',
@@ -33,7 +35,12 @@ import { Teacher } from '@interfaces/teacher';
     ConfirmDialogModule,
     ImageModule,
   ],
-  providers: [MessageService, ConfirmationService],
+  providers: [
+    MessageService,
+    ConfirmationService,
+    DialogService,
+    DynamicDialogConfig,
+  ],
   templateUrl: './teachers-list.component.html',
 })
 export default class TeachersListComponent implements OnInit {
@@ -41,6 +48,11 @@ export default class TeachersListComponent implements OnInit {
   private confirmationService = inject(ConfirmationService);
   public layoutService = inject(LayoutService);
   public teachersService = inject(TeachersService);
+  public configRef = inject(DynamicDialogConfig);
+  public dialogService = inject(DialogService);
+
+
+  public ref: DynamicDialogRef | undefined;
 
   public teachers = this.teachersService.teachers;
   public loading = this.teachersService.loading;
@@ -51,5 +63,72 @@ export default class TeachersListComponent implements OnInit {
 
   ngOnInit(): void {
     this.teachersService.getAllTeachers();
+    if (this.ref) {
+      this.ref.close();
+    }
+  }
+
+  public showTeacher(teacher: Teacher) {
+    this.ref = this.dialogService.open(TeacherComponent, {
+      header: 'Maestro: ' + teacher.name,
+      draggable: true,
+      styleClass: 'w-11 md:w-7',
+      maximizable: true,
+      data: {
+        teacher: teacher,
+      },
+    });
+
+    this.ref.onClose.subscribe((teacher: Teacher) => {
+      if (teacher) {
+        console.log(teacher);
+
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Exito!',
+          detail: `Teachere ${teacher.name} actualizado exitosamente`,
+        });
+      }
+    });
+  }
+
+  public createTeacher() {
+    this.ref = this.dialogService.open(TeacherComponent, {
+      header: 'Nuevo maestro',
+      draggable: true,
+      styleClass: 'w-11 md:w-7',
+      maximizable: true,
+    });
+
+    this.ref.onClose.subscribe((teacher: Teacher) => {
+      if (teacher) {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Exito!',
+          detail: `Teachere ${teacher.name} creado exitosamente`,
+        });
+      }
+    });
+  }
+
+  public deleteTeacher(teacher: Teacher) {
+    this.confirmationService.confirm({
+      message: 'Esta seguro de eliminar al maestro ' + teacher.name,
+      acceptLabel: 'Si',
+      acceptButtonStyleClass: 'p-button-rounded p-button-success w-7rem',
+      rejectLabel: 'No',
+      rejectButtonStyleClass: 'p-button-rounded p-button-warning w-7rem',
+      header: 'Confirmación',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.teachersService.deleteTeacher(teacher.id_teacher).subscribe((_) => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Eliminación exitosa',
+            detail: `Teachere ${teacher.name} eliminado exitosamente`,
+          });
+        });
+      },
+    });
   }
 }

@@ -1,0 +1,160 @@
+<div class="w-full flex flex-column gap-3 mt-2 md:mt-0">
+  <div class="flex w-full gap-3 md:gap-5">
+    <div class="flex flex-column gap-2 w-full">
+      <label for="username"><i class="pi text-base pi-user"></i> Nombre</label>
+      <input
+        id="username"
+        type="text"
+        pInputText
+        placeholder="Nombre del maestro"
+        [(ngModel)]="teacher.name"
+        class="w-full p-inputtext-sm"
+        [ngClass]="{'border-red-400': teacher.name.length === 0}"
+        [ngClass]="{'border-red-400': inputsDirt.name}"
+      />
+    </div>
+
+    <div class="flex flex-column gap-2 w-full">
+      <label for="lastname"
+        ><i class="pi text-base pi-user"></i> Apellido</label
+      >
+      <input
+        id="lastname"
+        type="text"
+        placeholder="Apellido del maestro"
+        pInputText
+        [(ngModel)]="teacher.lastname"
+        class="w-full p-inputtext-sm"
+      />
+    </div>
+  </div>
+  <div class="flex flex-column gap-2 w-full">
+    <label for="username">
+      <i class="pi pi-info-circle"></i> Información adicional sobre el
+      maestro:</label
+    >
+    <textarea
+      rows="2"
+      cols="30"
+      placeholder="Información adicional sobre el maestro (opcional)"
+      pInputTextarea
+      [(ngModel)]="teacher.info"
+      [autoResize]="true"
+      class="w-full text-sm text-700 text-sm"
+    ></textarea>
+  </div>
+  <div class="flex flex-column md:flex-row w-full gap-3 md:gap-5">
+    <div class="flex flex-column gap-2 w-full">
+      <label class="flex align-items-center" for="email"
+        ><i class="pi text-base pi-id-card mr-2"></i> C.I.</label
+      >
+      <input
+        id="email"
+        type="text"
+        placeholder="Cedula de identidad del maestro"
+        pInputText
+        [(ngModel)]="teacher.id"
+        class="w-full p-inputtext-sm"
+      />
+    </div>
+    <div class="flex flex-column gap-2 w-full">
+      <label class="flex align-items-center" for="email"
+        ><i class="pi text-base pi-envelope mr-2"></i> Correo</label
+      >
+      <input
+        id="email"
+        type="text"
+        placeholder="Correo electrónico del maestro"
+        pInputText
+        [(ngModel)]="teacher.email"
+        class="w-full p-inputtext-sm"
+      />
+    </div>
+  </div>
+
+  <div class="flex flex-column md:flex-row w-full gap-3 md:gap-5">
+    <div class="flex flex-column gap-2 w-full">
+      <label class="flex align-items-center" for="email"
+        ><i class="pi text-base pi-calendar-times mr-2"></i> Fecha de
+        nacimiento</label
+      >
+      <p-calendar
+        [(ngModel)]="teacher.birth_date"
+        dateFormat="yy/mm/dd"
+        placeholder="Seleccione la fecha de nacimiento del maestro"
+        styleClass="w-full"
+        [inputStyleClass]="inputsDirt.birth_date ? 'border-red-400 w-full' : 'w-full'"
+      ></p-calendar>
+      <!-- <p-inputMask
+        mask="9999-99-99"
+        [(ngModel)]="teacher.birth_date.split('T')[0]"
+        [styleClass]="inputsDirt.birth_date ? 'border-red-400 w-full' : 'w-full'"
+        placeholder="Escriba la fecha en el formato año/mes/día"
+      ></p-inputMask> -->
+    </div>
+
+  </div>
+  <div class="flex flex-column md:flex-row w-full">
+    <div class="flex flex-column gap-2 w-12 md:w-6 ml-0">
+      <label
+        htmlFor="gender"
+        class="block text-900"
+        style="white-space: nowrap; width: max-content;"
+        ><i class="pi pi-search"></i> Género
+      </label>
+      <div
+        class="flex align-items-center gap-2 md:ml-5 justify-content-center md:justify-content-start"
+      >
+        <label
+          htmlFor="gender"
+          class="block text-900"
+          style="white-space: nowrap; width: max-content;"
+          >Femenino</label
+        >
+        <p-inputSwitch
+          inputId="gender"
+          [(ngModel)]="teacher.gender"
+          [falseValue]="'Femenino'"
+          [trueValue]="'Masculino'"
+        ></p-inputSwitch>
+        <label
+          htmlFor="gender"
+          class="block text-900"
+          style="white-space: nowrap; width: max-content;"
+          >Masculino</label
+        >
+      </div>
+    </div>
+    <div class="flex flex-column gap-2 w-12 md:w-6 ml-0 md:ml-5 mt-2 md:mt-0">
+      <label for="phone"><i class="pi pi-mobile"></i> Teléfono</label>
+      <div class="flex gap-2 w-full">
+        <input
+          id="code_country"
+          type="text"
+          pInputText
+          [(ngModel)]="teacher.code_country"
+          class="w-4 p-inputtext-sm"
+          [ngClass]="{'border-red-400': teacher.code_country.length === 0}"
+        />
+        <p-inputNumber
+          inputId="integeronly"
+          [useGrouping]="false"
+          [(ngModel)]="teacher.phone"
+          class="w-full"
+          [inputStyleClass]="inputsDirt.phone ? 'w-full p-inputtext-sm border-red-400' : 'w-full p-inputtext-sm'"
+          styleClass="w-full"
+        />
+      </div>
+    </div>
+  </div>
+  <div class="w-full justify-content-end">
+    <p-button
+      styleClass="w-full"
+      [label]="config.data ? 'Actualizar maestro' : 'Crear maestro'"
+      severity="success"
+      [disabled]="config.data?.disabled ? true : false"
+      size="small"
+      (onClick)="saveTeacher()"
+    ></p-button>
+  </div>
+</div>

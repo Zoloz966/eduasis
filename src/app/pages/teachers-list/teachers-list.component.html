@@ -2,16 +2,18 @@
   <div class="col-6 md:col-3 px-3">
     <p-button
       styleClass="w-full h-4rem bg-primary-400"
-
+      (onClick)="createTeacher()"
       label="+ Agregar Maestro"
     ></p-button>
   </div>
   <div class="col-6 md:col-9 px-3">
     <p-overlayPanel #op>
       <div class="flex gap-2 flex-column align-items-center w-full">
-        <div class="flex  gap-1">
+        <div class="flex gap-1">
           <div class="text-xs text-700">Seleccionados</div>
-          <div class="text-sm md:text-base text-center">{{ selectedTeachers.length }}</div>
+          <div class="text-sm md:text-base text-center">
+            {{ selectedTeachers.length }}
+          </div>
         </div>
         <p-button
           severity="contrast"
@@ -34,21 +36,25 @@
     </p-overlayPanel>
     <div
       (click)="layoutService.isMobile() ? op.toggle($event) : ''"
-      class="w-full h-4rem  flex px-3 surface-50 justify-content-between"
+      class="w-full h-4rem flex px-3 surface-50 justify-content-between"
       [ngClass]="layoutService.isMobile() ? 'cursor-pointer hover:surface-50' : ''"
     >
       <div class="flex gap-2 align-items-center">
         <i class="pi pi-briefcase px-2 text-2xl"></i>
         <div class="flex flex-column gap-1">
           <div class="text-xs text-400">Total de maestros</div>
-          <div class="text-sm md:text-base">{{ teachers().length }} maestro(s)</div>
+          <div class="text-sm md:text-base">
+            {{ teachers().length }} maestro(s)
+          </div>
         </div>
       </div>
       @if (!layoutService.isMobile()) {
       <div class="flex gap-2 align-items-center">
         <div class="flex flex-column gap-1">
           <div class="text-xs text-400">Seleccionados</div>
-          <div class="text-sm md:text-base text-center">{{ selectedTeachers.length }}</div>
+          <div class="text-sm md:text-base text-center">
+            {{ selectedTeachers.length }}
+          </div>
         </div>
         <p-button
           severity="contrast"
@@ -79,15 +85,17 @@
       [value]="teachers()"
       styleClass="p-datatable-sm p-datatable-striped "
       [paginator]="true"
-      dataKey="id_user"
+      dataKey="id_teacher"
       [rows]="10"
       [(selection)]="selectedTeachers"
       [showCurrentPageReport]="true"
-      currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} useres"
+      currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} maestros"
     >
       <ng-template pTemplate="header">
         <tr>
-          <th class="pl-5 surface-50 border-round-left"><p-tableHeaderCheckbox /></th>
+          <th class="pl-5 surface-50 border-round-left">
+            <p-tableHeaderCheckbox />
+          </th>
           <th
             pSortableColumn="name"
             class="white-space-nowrap surface-50 h-3rem"
@@ -98,7 +106,7 @@
             pSortableColumn="email"
             class="white-space-nowrap surface-50 h-3rem"
           >
-            Rol <p-sortIcon class="ml-8" field="email" />
+            E-mail <p-sortIcon class="ml-8" field="email" />
           </th>
 
           <th
@@ -116,7 +124,7 @@
           <th class="surface-50 border-round-right"></th>
         </tr>
       </ng-template>
-      <ng-template pTemplate="body" let-user>
+      <ng-template pTemplate="body" let-teacher>
         @if (loading()) { @for (skeleton of skeletonTab; track $index) {
         <tr>
           <td class="pl-3 flex gap-2 align-items-center">
@@ -141,34 +149,34 @@
         } } @else {
         <tr>
           <td class="pl-5">
-            <p-tableCheckbox [value]="user" />
+            <p-tableCheckbox [value]="teacher" />
           </td>
           <td class="">
             <div class="flex gap-2 align-items-center">
-              @if (user.photo !== '') {
+              @if (teacher.photo !== '') {
               <div class="h-2rem w-2rem surface-200 border-circle">
                 <p-image
-                  [src]="user.photo"
+                  [src]="teacher.photo"
                   [preview]="true"
                   imageClass="h-2rem w-2rem border-circle"
-                  [alt]="user.name"
+                  [alt]="teacher.name"
                 />
               </div>
               }
-              <span>{{ user.name }} </span>
+              <span>{{ teacher.name }} </span>
             </div>
           </td>
           <td>
             <div class="flex align-items-center">
-              <span>{{ user.role.name }} </span>
+              <span>{{ teacher.email }} </span>
             </div>
           </td>
           <td>
             <div class="flex align-items-center">
-              <span>{{ user.phone }} </span>
+              <span>{{ teacher.phone }} </span>
             </div>
           </td>
-          <td>{{ user.created_at.split('T')[0] }}</td>
+          <td>{{ teacher.created_at.split('T')[0] }}</td>
           <td class="white-space-nowrap">
             <p-button
               severity="secondary"
@@ -176,12 +184,14 @@
               [rounded]="true"
               [text]="true"
               styleClass="h-2rem w-2rem ml-2"
+              (onClick)="showTeacher(teacher)"
             ></p-button>
             <p-button
               icon="pi pi-trash"
               severity="secondary"
               [rounded]="true"
               [text]="true"
+              (onClick)="deleteTeacher(teacher)"
               styleClass="h-2rem w-2rem ml-2"
             ></p-button>
           </td>

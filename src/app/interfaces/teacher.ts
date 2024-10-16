@@ -1,3 +1,5 @@
+import { Role } from "./role";
+
 export enum Gender {
   Masculino = 'Masculino',
   Femenino = 'Femenino',
@@ -10,7 +12,7 @@ export interface Teacher {
   id: string;
   email: string;
   password?: string;
-  roleIdRole: number;
+  roleIdRole?: number;
   token: string;
   gender: Gender;
   code_country: string;
@@ -19,6 +21,8 @@ export interface Teacher {
   photo: string;
   isEnabled: number;
   info: string;
-  status: number;
-  updated_at: Date;
+  status?: number;
+  created_at?: Date;
+  updated_at?: Date;
+  role?: Role;
 }
