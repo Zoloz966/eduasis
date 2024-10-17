@@ -63,6 +63,12 @@ export const routes: Routes = [
               import('./pages/teachers-list/teachers-list.component'),
           },
           {
+            path: 'students-list',
+            title: 'Lista de estudiantes',
+            loadComponent: () =>
+              import('./pages/students-list/students-list.component'),
+          },
+          {
             path: '',
             redirectTo: 'admin',
             pathMatch: 'full',

@@ -1,4 +1,4 @@
-import { TeachersService } from './../../services/teachers.service';
+import { StudentsService } from './../../services/students.service';
 import { CommonModule } from '@angular/common';
 import { Component, inject, type OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -14,12 +14,16 @@ import { ImageModule } from 'primeng/image';
 import { ToastModule } from 'primeng/toast';
 import { TagModule } from 'primeng/tag';
 import { LayoutService } from '@services/layout.service';
-import { Teacher } from '@interfaces/teacher';
-import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import TeacherComponent from '@shared/teacher/teacher.component';
+import { Student } from '@interfaces/student';
+import {
+  DialogService,
+  DynamicDialogConfig,
+  DynamicDialogRef,
+} from 'primeng/dynamicdialog';
+import StudentComponent from '@shared/student/student.component';
 
 @Component({
-  selector: 'app-teachers-list',
+  selector: 'app-students-list',
   standalone: true,
   imports: [
     CommonModule,
@@ -41,80 +45,87 @@ import TeacherComponent from '@shared/teacher/teacher.component';
     DialogService,
     DynamicDialogConfig,
   ],
-  templateUrl: './teachers-list.component.html',
+  templateUrl: './students-list.component.html',
 })
-export default class TeachersListComponent implements OnInit {
+export default class StudentsListComponent implements OnInit {
   private messageService = inject(MessageService);
   private confirmationService = inject(ConfirmationService);
   public layoutService = inject(LayoutService);
-  public teachersService = inject(TeachersService);
+  public studentsService = inject(StudentsService);
   public configRef = inject(DynamicDialogConfig);
   public dialogService = inject(DialogService);
 
-
   public ref: DynamicDialogRef | undefined;
 
-  public teachers = this.teachersService.teachers;
-  public loading = this.teachersService.loading;
+  public students = this.studentsService.students;
+  public loading = this.studentsService.loading;
 
-  public selectedTeachers: Teacher[] = [];
+  public selectedStudents: Student[] = [];
 
   public skeletonTab = [1, 2, 3, 4, 5, 7];
 
   ngOnInit(): void {
-    this.teachersService.getAllTeachers();
+    this.studentsService.getAllStudents();
 
     if (this.ref) {
       this.ref.close();
     }
   }
 
-  public showTeacher(teacher: Teacher) {
-    this.ref = this.dialogService.open(TeacherComponent, {
-      header: 'Maestro: ' + teacher.name,
+  public showStudent(student: Student) {
+    this.ref = this.dialogService.open(StudentComponent, {
+      header:
+        'Maestro: ' + student.name,
       draggable: true,
       styleClass: 'w-11 md:w-7',
       maximizable: true,
       data: {
-        teacher: teacher,
+        student: student,
       },
     });
 
-    this.ref.onClose.subscribe((teacher: Teacher) => {
-      if (teacher) {
-        console.log(teacher);
+    this.ref.onClose.subscribe((student: Student) => {
+      if (student) {
+        console.log(student);
 
         this.messageService.add({
           severity: 'success',
           summary: 'Exito!',
-          detail: `Teachere ${teacher.name} actualizado exitosamente`,
+          detail: `Studente ${student.name} actualizado exitosamente`,
         });
       }
     });
   }
 
-  public createTeacher() {
-    this.ref = this.dialogService.open(TeacherComponent, {
-      header: 'Nuevo maestro',
+  public openWhatsApp(number: string) {
+    const formattedNumber = number.replace(/\D/g, '');
+    const whatsappUrl = `https://wa.me/${formattedNumber}`;
+
+    window.open(whatsappUrl, '_blank');
+  }
+
+  public createStudent() {
+    this.ref = this.dialogService.open(StudentComponent, {
+      header: 'Nuevo estudiante',
       draggable: true,
       styleClass: 'w-11 md:w-7',
       maximizable: true,
     });
 
-    this.ref.onClose.subscribe((teacher: Teacher) => {
-      if (teacher) {
+    this.ref.onClose.subscribe((student: Student) => {
+      if (student) {
         this.messageService.add({
           severity: 'success',
           summary: 'Exito!',
-          detail: `Teachere ${teacher.name} creado exitosamente`,
+          detail: `Studente ${student.name} creado exitosamente`,
         });
       }
     });
   }
 
-  public deleteTeacher(teacher: Teacher) {
+  public deleteStudent(student: Student) {
     this.confirmationService.confirm({
-      message: 'Esta seguro de eliminar al maestro ' + teacher.name,
+      message: 'Esta seguro de eliminar al estudiante ' + student.name,
       acceptLabel: 'Si',
       acceptButtonStyleClass: 'p-button-rounded p-button-success w-7rem',
       rejectLabel: 'No',
@@ -122,13 +133,15 @@ export default class TeachersListComponent implements OnInit {
       header: 'Confirmación',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.teachersService.deleteTeacher(teacher.id_teacher).subscribe((_) => {
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Eliminación exitosa',
-            detail: `Teachere ${teacher.name} eliminado exitosamente`,
+        this.studentsService
+          .deleteStudent(student.id_student)
+          .subscribe((_) => {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Eliminación exitosa',
+              detail: `Studente ${student.name} eliminado exitosamente`,
+            });
           });
-        });
       },
     });
   }
