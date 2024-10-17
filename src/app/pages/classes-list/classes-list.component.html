@@ -1,0 +1,324 @@
+<section class="w-full grid m-0 p-0">
+  <div class="col-12 md:col-9 px-3">
+    <p-overlayPanel #op> </p-overlayPanel>
+    <div
+      (click)="layoutService.isMobile() ? op.toggle($event) : ''"
+      class="w-full h-4rem border-round flex px-3 surface-50"
+      [ngClass]="layoutService.isMobile() ? 'cursor-pointer hover:surface-50' : ''"
+    >
+      @if (!layoutService.isMobile()) {
+      <div class="flex gap-2 w-full align-items-center">
+        <div class="text-xs text-700">
+          Listado de todas las clases registradas.
+        </div>
+      </div>
+      }
+      <div class="flex gap-2 w-full align-items-center">
+        <i class="pi pi-objects-column px-2 text-2xl"></i>
+        <div class="flex flex-column gap-1">
+          <div class="text-xs text-500">Registrados</div>
+          <div class="text-sm md:text-base">{{ classes().length }} mat.</div>
+        </div>
+      </div>
+      <div class="flex gap-2 w-full align-items-center">
+        <i class="pi pi-clipboard px-2 text-2xl"></i>
+        <div class="flex flex-column gap-1">
+          <div class="text-xs text-500">Clases en gest.</div>
+          <div class="text-sm md:text-base">{{ 0 }} clases</div>
+        </div>
+      </div>
+      @if (!layoutService.isMobile()) {
+      <div class="flex gap-2 w-full align-items-center">
+        <p-dropdown
+          [options]="filterOptions"
+          [(ngModel)]="valueFilter"
+          styleClass="border-0 w-full"
+          (onChange)="filterClassesByShift($event)"
+        ></p-dropdown>
+      </div>
+      }
+    </div>
+  </div>
+  @if (layoutService.isMobile()) {
+  <div class="col-6 px-3">
+    <p-dropdown
+      [options]="filterOptions"
+      variant="filled"
+      [(ngModel)]="valueFilter"
+      styleClass="border-0 w-full"
+      (onChange)="filterClassesByShift($event)"
+    ></p-dropdown>
+  </div>
+  }
+  <div class="col-6 md:col-3 px-3">
+    <p-button
+      (onClick)="createClass()"
+      styleClass="w-full md:h-4rem text-white font-semibold bg-primary-500 border-0"
+      [label]="layoutService.isMobile() ? 'Agregar' : '+ Agregar Materia'"
+      [icon]="layoutService.isMobile() ? 'text-white pi pi-plus' : ''"
+    ></p-button>
+  </div>
+</section>
+
+<div class="px-3">
+  <div class="w-full border-300 border-round mt-4 overflow-hidden">
+    <p-table
+      #dt
+      [value]="classes()"
+      styleClass="p-datatable-sm p-datatable-striped "
+      [paginator]="true"
+      [rows]="10"
+      [showCurrentPageReport]="true"
+      currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} clases"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th class="pl-5 surface-50 border-round-left"></th>
+          <th
+            pSortableColumn="class_name"
+            class="white-space-nowrap surface-50 h-3rem"
+          >
+            Nombre <p-sortIcon class="ml-8" field="class_name" />
+          </th>
+          <th
+            pSortableColumn="course.course_name"
+            class="white-space-nowrap surface-50 h-3rem"
+          >
+            Curso <p-sortIcon class="ml-8" field="course.course_name" />
+          </th>
+          <th
+            pSortableColumn="created_at"
+            class="white-space-nowrap surface-50 h-3rem"
+          >
+            Maestro <p-sortIcon class="ml-8" field="created_at" />
+          </th>
+          <th class="surface-50 border-round-right"></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-class>
+        @if (loading()) { @for (skeleton of skeletonTab; track $index) {
+        <tr>
+          <td class="pl-3 flex gap-2 align-items-center">
+            <p-skeleton size="2rem" shape="circle"></p-skeleton>
+            <p-skeleton height="1rem" width="8rem"></p-skeleton>
+          </td>
+          <td>
+            <p-skeleton height="1rem" width="9rem"></p-skeleton>
+          </td>
+          <td>
+            <p-skeleton height="1rem" width="9rem"></p-skeleton>
+          </td>
+
+          <td class="flex gap-2 align-items-center">
+            <p-skeleton size="2rem" shape="circle"></p-skeleton>
+            <p-skeleton size="2rem" shape="circle"></p-skeleton>
+            <p-skeleton size="2rem" shape="circle"></p-skeleton>
+          </td>
+        </tr>
+        } } @else {
+        <tr>
+          <td class="pl-5"></td>
+
+          <td>
+            <div class="flex gap-2 align-items-center">
+              <span>{{ class.class_name }} </span>
+            </div>
+          </td>
+          <td>
+            <div class="flex gap-2 align-items-center">
+              <span
+                >{{ class.course.course_name + ' ' + class.course.parallel + ' -
+                ' + class.course.age }}
+              </span>
+            </div>
+          </td>
+          <td>{{ class.teacher.name + ' ' + class.teacher.lastname }}</td>
+          <td class="white-space-nowrap">
+            <p-button
+              severity="secondary"
+              icon="pi pi-pencil"
+              [rounded]="true"
+              [text]="true"
+              styleClass="h-2rem w-2rem ml-2"
+              (onClick)="editClass(class)"
+            ></p-button>
+            <p-button
+              icon="pi pi-trash"
+              severity="secondary"
+              [rounded]="true"
+              [text]="true"
+              styleClass="h-2rem w-2rem ml-2"
+              (onClick)="deleteClass(class)"
+            ></p-button>
+          </td>
+        </tr>
+        }
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="6">
+            <app-card-empty-list nameEmptyList="clases"></app-card-empty-list>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+<p-sidebar [(visible)]="showClass" position="right">
+  <ng-template pTemplate="header"
+    ><span class="font-semibold text-xl"
+      >Información de clase</span
+    ></ng-template
+  >
+  <ng-template pTemplate="content">
+    <div class="w-full flex flex-column gap-7">
+      <div class="flex flex-column gap-2">
+        <label class="text-sm" for="name"
+          ><i class="pi pi-objects-column mr-2 -mb-1"></i>Nombre</label
+        >
+
+        <input
+          id="name"
+          type="text"
+          pInputText
+          placeholder="Coloque el nombre de la clase"
+          [(ngModel)]="selectedClass.class_name"
+          class="w-full"
+          [ngClass]="{'ng-invalid ng-dirty': selectedClass.class_name.length === 0}"
+          [ngClass]="{'ng-invalid ng-dirty': inputsDirt.class_name}"
+        />
+      </div>
+    </div>
+    <div class="flex flex-column gap-2 mt-4">
+      <label class="text-sm" for="type">
+        <i class="pi pi-tag mr-2 -mb-1"></i>Turno</label
+      >
+      <span class="p-input-icon-left">
+        <p-dropdown
+          [options]="selectOptions"
+          [(ngModel)]="selectedClass.shift"
+          placeholder="Seleccione un tipo de estado"
+          styleClass=" w-full"
+          [ngClass]="{'ng-invalid ng-dirty': inputsDirt.shift}"
+        >
+          <ng-template pTemplate="selectedItem">
+            <div
+              class="flex align-items-center gap-2"
+              *ngIf="selectedClass.shift"
+            >
+              <div>{{ selectedClass.shift }}</div>
+            </div>
+          </ng-template>
+          <ng-template let-type pTemplate="item">
+            <div class="flex align-items-center gap-2">
+              <div>{{ type }}</div>
+            </div>
+          </ng-template>
+        </p-dropdown>
+      </span>
+    </div>
+    <div class="flex flex-column gap-2 mt-4">
+      <label class="text-sm" for="type">
+        <i class="pi pi-clone mr-2 -mb-1"></i>Curso</label
+      >
+      <span class="p-input-icon-left">
+        <p-dropdown
+          [options]="courses()"
+          [loading]="loadingCourses()"
+          [(ngModel)]="selectedClass.course"
+          placeholder="Seleccione un curso"
+          styleClass=" w-full"
+          [ngClass]="{'ng-invalid ng-dirty': inputsDirt.course}"
+        >
+          <ng-template pTemplate="selectedItem">
+            <div
+              class="flex align-items-center gap-2"
+              *ngIf="selectedClass.course"
+            >
+              <div>
+                {{ selectedClass.course.course_name + ' ' +
+                selectedClass.course.parallel }}
+              </div>
+            </div>
+          </ng-template>
+          <ng-template let-type pTemplate="item">
+            <div class="flex align-items-center gap-2">
+              <div>{{ type.course_name + ' ' + type.parallel }}</div>
+            </div>
+          </ng-template>
+        </p-dropdown>
+      </span>
+    </div>
+    <div class="flex flex-column gap-2 mt-4">
+      <label class="text-sm" for="type">
+        <i class="pi pi-user mr-2 -mb-1"></i>Maestro</label
+      >
+      <span class="p-input-icon-left">
+        <p-dropdown
+          [options]="teachers()"
+          [loading]="loadingTeachers()"
+          [(ngModel)]="selectedClass.teacher"
+          placeholder="Seleccione maestro a cargo de la clase"
+          styleClass=" w-full"
+          [ngClass]="{'ng-invalid ng-dirty': inputsDirt.teacher}"
+        >
+          <ng-template pTemplate="selectedItem">
+            <div
+              class="flex align-items-center gap-2"
+              *ngIf="selectedClass.teacher"
+            >
+              <div>
+                {{ selectedClass.teacher.name + ' ' +
+                selectedClass.teacher.lastname }}
+              </div>
+            </div>
+          </ng-template>
+          <ng-template let-type pTemplate="item">
+            <div class="flex align-items-center gap-2">
+              <div>{{ type.name + ' ' + type.lastname }}</div>
+            </div>
+          </ng-template>
+        </p-dropdown>
+      </span>
+    </div>
+    <div class="flex flex-column gap-2 mt-4">
+      <label class="text-sm" for="type">
+        <i class="pi pi-objects-column mr-2 -mb-1"></i>Materia</label
+      >
+      <span class="p-input-icon-left">
+        <p-dropdown
+          [options]="subjects()"
+          [loading]="loadingSubjects()"
+          [(ngModel)]="selectedClass.subject"
+          placeholder="Seleccione un tipo de estado"
+          styleClass=" w-full"
+          [ngClass]="{'ng-invalid ng-dirty': inputsDirt.subject}"
+        >
+          <ng-template pTemplate="selectedItem">
+            <div
+              class="flex align-items-center gap-2"
+              *ngIf="selectedClass.subject"
+            >
+              <div>{{ selectedClass.subject.subject_name }}</div>
+            </div>
+          </ng-template>
+          <ng-template let-type pTemplate="item">
+            <div class="flex align-items-center gap-2">
+              <div>{{ type.subject_name }}</div>
+            </div>
+          </ng-template>
+        </p-dropdown>
+      </span>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="footer"
+    ><p-button
+      styleClass="w-full bg-primary-700 text-white border-0"
+      [label]="selectedClass.id_class === 0 ? 'Crear clase' : 'Actualizar clase'"
+      (onClick)="saveClass()"
+    ></p-button
+  ></ng-template>
+</p-sidebar>
+<p-toast position="top-center"></p-toast>
+<p-confirmDialog styleClass="w-auto md:w-5" position="bottom"></p-confirmDialog>

@@ -40,6 +40,12 @@ export const routes: Routes = [
             loadComponent: () =>
               import('./pages/subjects-list/subjects-list.component'),
           },
+          {
+            path: 'class-list',
+            title: 'Lista de clases',
+            loadComponent: () =>
+              import('./pages/classes-list/classes-list.component'),
+          },
         ],
       },
       {
@@ -62,6 +68,7 @@ export const routes: Routes = [
             loadComponent: () =>
               import('./pages/teachers-list/teachers-list.component'),
           },
+
           {
             path: 'students-list',
             title: 'Lista de estudiantes',

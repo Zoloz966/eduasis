@@ -100,7 +100,7 @@ export default class StudentComponent implements OnInit {
       lastname: this.student.lastname,
       birth_date: this.student.birth_date,
       photo: this.student.photo,
-      courseIdCourse: this.student.courseIdCourse,
+      courseIdCourse: this.student.course?.id_course,
       tutor_phone: this.student.tutor_phone.toString(),
       code_country: this.student.code_country,
       gender: this.student.gender,
