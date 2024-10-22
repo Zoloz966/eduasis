@@ -1,0 +1,106 @@
+<div class="w-full flex flex-column gap-3 mt-2 md:mt-0">
+  <div class="flex w-full gap-3 md:gap-5">
+    <div class="flex flex-column gap-2 w-full">
+      <label for="username"
+        ><i class="pi text-base pi-check-circle"></i> Nombre</label
+      >
+      <input
+        id="username"
+        type="text"
+        pInputText
+        placeholder="Nombre de tarea"
+        [(ngModel)]="task.task_tittle"
+        class="w-full p-inputtext-sm"
+        [ngClass]="{'border-red-400': task.task_tittle.length === 0}"
+        [ngClass]="{'border-red-400': inputsDirt.tittle}"
+      />
+    </div>
+  </div>
+
+  <div class="flex flex-column gap-2 w-full">
+    <label for="username">
+      <i class="pi pi-info-circle"></i> Información adicional sobre el
+      tarea:</label
+    >
+    <textarea
+      rows="2"
+      cols="30"
+      placeholder="Información adicional sobre la tarea (opcional)"
+      pInputTextarea
+      [(ngModel)]="task.description"
+      [autoResize]="true"
+      class="w-full text-sm text-700 text-sm"
+    ></textarea>
+  </div>
+  <div class="flex flex-column md:flex-row w-full gap-3 md:gap-5">
+    <div class="flex flex-column gap-2 w-full">
+      <label for="username"> <i class="pi pi-clipboard"></i> Clase</label>
+      <p-dropdown
+        [options]="classes()"
+        [(ngModel)]="task.class"
+        placeholder="Tarea de Clase"
+        [filter]="true"
+        filterBy="class_name"
+        styleClass="w-full"
+        [loading]="classesLoading()"
+      >
+        <ng-template pTemplate="selectedItem">
+          <div class="flex align-items-center gap-2" *ngIf="task.class">
+            <div>
+              {{ task.class.class_name + ' - ' + task.class.course?.course_name
+              + ' ' + task.class.course?.parallel + ' ' + task.class.course?.age
+              }}
+            </div>
+          </div>
+        </ng-template>
+        <ng-template let-class pTemplate="item">
+          <div class="flex align-items-center gap-2">
+            <div>
+              {{ class.class_name + ' ' + class.course.parallel + ' ' +
+              class.course?.age }}
+            </div>
+          </div>
+        </ng-template>
+      </p-dropdown>
+    </div>
+  </div>
+  <div class="flex flex-column md:flex-row w-full gap-3 md:gap-5">
+    <div class="flex flex-column gap-2 w-full">
+      <label class="flex align-items-center" for="email"
+        ><i class="pi text-base pi-calendar-times mr-2"></i> Fecha de
+        entrega</label
+      >
+      <p-calendar
+        [(ngModel)]="task.end_date"
+        dateFormat="yy/mm/dd"
+        [touchUI]="true"
+        placeholder="Seleccione la fecha de entrega "
+        styleClass="w-full"
+      ></p-calendar>
+      <!-- <p-inputMask
+        mask="9999-99-99"
+        [(ngModel)]="task.birth_date.split('T')[0]"
+        [styleClass]="inputsDirt.birth_date ? 'border-red-400 w-full' : 'w-full'"
+        placeholder="Escriba la fecha en el formato año/mes/día"
+      ></p-inputMask> -->
+    </div>
+  </div>
+  <div class="flex flex-column md:flex-row w-full gap-3 md:gap-5 -mt-3">
+    <p-messages
+      [(value)]="messages"
+      [enableService]="false"
+      [closable]="false"
+    />
+  </div>
+
+  <div class="w-full justify-content-end">
+    <p-button
+      styleClass="w-full"
+      [label]="config.data ? 'Actualizar tarea' : 'Crear tarea'"
+      severity="success"
+      [disabled]="config.data?.disabled ? true : false"
+      size="small"
+      (onClick)="saveTask()"
+    ></p-button>
+  </div>
+</div>

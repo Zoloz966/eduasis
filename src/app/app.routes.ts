@@ -35,6 +35,12 @@ export const routes: Routes = [
               import('./pages/virtual-assistant/virtual-assistant.component'),
           },
           {
+            path: 'activity',
+            title: 'Asistente Virtual',
+            loadComponent: () =>
+              import('./pages/activity/activity.component'),
+          },
+          {
             path: 'subjects-list',
             title: 'Lista de materias',
             loadComponent: () =>
