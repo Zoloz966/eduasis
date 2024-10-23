@@ -31,6 +31,11 @@ export class TopBarComponent implements OnInit {
     console.log(this.router.url);
   }
 
+
+  public goBack(): void {
+    window.history.back();
+  }
+
   public getTitle(): string {
     if (this.router.url.includes('dashboard')) return 'Dashboard';
     if (this.router.url.includes('students')) return 'Estudiantes';
