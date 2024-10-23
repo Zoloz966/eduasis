@@ -246,4 +246,18 @@ Por ejemplo, si el apellido es "Ramirez" y la fecha de nacimiento es "01/01/2012
       return 0;
     }
   }
+
+  public handleCompletedTask(task: Task) {
+    const updateTask: Partial<Task> = {
+      isCompleted: 1,
+    };
+
+    this.tasksService.updateTask(task.id_task, updateTask).subscribe((res) => {
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Exito!',
+        detail: `Tarea ${task.task_tittle} completada exitosamente`,
+      });
+    });
+  }
 }

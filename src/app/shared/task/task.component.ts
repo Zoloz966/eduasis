@@ -93,7 +93,7 @@ export default class TaskComponent implements OnInit {
     if (!(await this.passTaskForm())) return;
 
     const newTask: Partial<Task> = {
-      classIdClass: this.task.classIdClass,
+      classIdClass: this.task.class?.id_class,
       description: this.task.description,
       end_date: this.task.end_date,
       isCompleted: this.task.isCompleted,

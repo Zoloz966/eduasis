@@ -279,15 +279,19 @@
                     task.class?.course?.parallel
                 }}</span>
               </div>
+              @if(!task.isCompleted){
               <div class="flex align-items-center gap-2">
                 <span class="text-sm">Marcar</span>
                 <p-checkbox
                   name="task_complete"
+                  [disabled]="task.isCompleted ? true : false"
                   [(ngModel)]="task.isCompleted"
                   [binary]="true"
                   inputId="binary"
+                  (onChange)="handleCompletedTask(task)"
                 />
               </div>
+              }
             </div>
           </div>
           } @empty {
@@ -339,7 +343,7 @@
             </div>
           </div>
           } @empty {
-          <p class="font-italic">No se encontraron pagos registrados</p>
+          <p class="font-italic">No se encontraron clases registrados</p>
           } }
         </p-tabPanel>
         <p-tabPanel>
