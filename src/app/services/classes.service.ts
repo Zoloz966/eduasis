@@ -28,10 +28,7 @@ export class ClassesService {
 
   private saveStorage(classes: Class[]) {
     if (classes.length > 0) {
-      localStorage.setItem(
-        'classes',
-        JSON.stringify(this.#class().classes)
-      );
+      localStorage.setItem('classes', JSON.stringify(this.#class().classes));
     } else {
       localStorage.removeItem('classes');
     }
@@ -82,6 +79,12 @@ export class ClassesService {
           classes: [],
         });
       }
+    );
+  }
+
+  public getClassesByCourse(id: number): Observable<Class[]> {
+    return this.http.get<Class[]>(
+      `${environment.url_api}/classes/byCourse/${id}`
     );
   }
 

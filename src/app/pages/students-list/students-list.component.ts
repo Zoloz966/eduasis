@@ -21,6 +21,14 @@ import {
   DynamicDialogRef,
 } from 'primeng/dynamicdialog';
 import StudentComponent from '@shared/student/student.component';
+import { Router } from '@angular/router';
+import { UsersService } from '@services/users.service';
+import { CheckboxModule } from 'primeng/checkbox';
+import { ClassesService } from '@services/classes.service';
+import { Class } from '@interfaces/class';
+import { Grade, TypeGrade } from '@interfaces/grade';
+import { InputTextModule } from 'primeng/inputtext';
+import { GradesService } from '@services/grades.service';
 
 @Component({
   selector: 'app-students-list',
@@ -34,9 +42,11 @@ import StudentComponent from '@shared/student/student.component';
     DropdownModule,
     TagModule,
     TableModule,
+    CheckboxModule,
     SkeletonModule,
     ToastModule,
     ConfirmDialogModule,
+    InputTextModule,
     ImageModule,
   ],
   providers: [
@@ -54,6 +64,9 @@ export default class StudentsListComponent implements OnInit {
   public studentsService = inject(StudentsService);
   public configRef = inject(DynamicDialogConfig);
   public dialogService = inject(DialogService);
+  public gradeService = inject(GradesService);
+
+  public classesService = inject(ClassesService);
 
   public ref: DynamicDialogRef | undefined;
 
@@ -64,6 +77,24 @@ export default class StudentsListComponent implements OnInit {
 
   public skeletonTab = [1, 2, 3, 4, 5, 7];
 
+  public router = inject(Router);
+
+  public classes: Class[] = [];
+  public loadingClasses: boolean = false;
+
+  public selectClass?: Class;
+  public selectStudent?: Student;
+
+  public typeGradeOption: TypeGrade[] = [
+    TypeGrade.PRIMER_TRIMESTRE,
+    TypeGrade.SEGUNDO_TRIMESTRE,
+    TypeGrade.TERCER_TRIMESTRE,
+  ];
+
+  public gradeAmount: number = 0;
+
+  public selectTypeGrade?: TypeGrade = TypeGrade.PRIMER_TRIMESTRE;
+
   ngOnInit(): void {
     this.studentsService.getAllStudents();
 
@@ -72,10 +103,56 @@ export default class StudentsListComponent implements OnInit {
     }
   }
 
+  public handlePanelStudent(student: Student) {
+    this.loadingClasses = true;
+    this.classesService.getClassesByCourse(student.courseIdCourse).subscribe(
+      (res) => {
+        this.classes = res;
+        this.selectStudent = student;
+        this.loadingClasses = false;
+      },
+      (error) => {
+        this.classes = [];
+        this.loadingClasses = false;
+      }
+    );
+  }
+
+  public saveGrade() {
+    const newGrade: Partial<Grade> = {
+      classIdClass: this.selectClass?.id_class,
+      grade: this.gradeAmount,
+      studentIdStudent: this.selectStudent?.id_student,
+      type_grade: this.selectTypeGrade,
+    };
+
+    this.gradeService.postGrade(newGrade).subscribe(
+      (res) => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Nota registrada exitosamente',
+          detail: 'La nota de la clase se guardo exitosamente',
+        });
+        this.selectClass = undefined;
+        this.selectTypeGrade = undefined;
+        this.gradeAmount = 0;
+      },
+      (error) => {
+        this.selectClass = undefined;
+        this.selectTypeGrade = undefined;
+        this.gradeAmount = 0;
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: error.error.message
+        });
+      }
+    );
+  }
+
   public showStudent(student: Student) {
     this.ref = this.dialogService.open(StudentComponent, {
-      header:
-        'Maestro: ' + student.name,
+      header: 'Maestro: ' + student.name,
       draggable: true,
       styleClass: 'w-11 md:w-7',
       maximizable: true,
@@ -91,7 +168,7 @@ export default class StudentsListComponent implements OnInit {
         this.messageService.add({
           severity: 'success',
           summary: 'Exito!',
-          detail: `Studente ${student.name} actualizado exitosamente`,
+          detail: `Estudiante ${student.name} actualizado exitosamente`,
         });
       }
     });

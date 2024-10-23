@@ -2,6 +2,8 @@ import { Student } from './student';
 import { Teacher } from './teacher';
 import { Course } from './course';
 import { Subject } from './subject';
+import { Task } from './task';
+import { Grade } from './grade';
 
 export enum Shift {
   Mañana = 'Mañana',
@@ -22,4 +24,6 @@ export interface Class {
   teacher?: Teacher;
   subject?: Subject;
   course?: Course;
+  grades?: Grade[];
+  tasks?: Task[];
 }

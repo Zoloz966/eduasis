@@ -85,6 +85,10 @@ export class StudentsService {
     );
   }
 
+  public getOneStudent(id: number): Observable<Student> {
+    return this.http.get<Student>(`${environment.url_api}/students/${id}`);
+  }
+
   public updateStudent(id: number, student: Partial<Student>) {
     return this.http
       .patch<Student>(`${environment.url_api}/students/${id}`, student)

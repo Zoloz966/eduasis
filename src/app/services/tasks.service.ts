@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, computed, inject, signal } from '@angular/core';
 import { environment } from '@environment/environment';
+import { Student } from '@interfaces/student';
 import { Task } from '@interfaces/task';
 import { Observable, tap } from 'rxjs';
 
@@ -28,10 +29,7 @@ export class TasksService {
 
   private saveStorage(tasks: Task[]) {
     if (tasks.length > 0) {
-      localStorage.setItem(
-        'tasks',
-        JSON.stringify(this.#task().tasks)
-      );
+      localStorage.setItem('tasks', JSON.stringify(this.#task().tasks));
     } else {
       localStorage.removeItem('tasks');
     }
@@ -49,19 +47,17 @@ export class TasksService {
   }
 
   public postTask(task: Partial<Task>): Observable<Task> {
-    return this.http
-      .post<Task>(`${environment.url_api}/tasks/`, task)
-      .pipe(
-        tap((resTask) => {
-          const oldTask = this.#task().tasks;
-          oldTask.push(resTask);
-          this.#task.set({
-            loading: false,
-            tasks: oldTask,
-          });
-          this.saveStorage(this.#task().tasks);
-        })
-      );
+    return this.http.post<Task>(`${environment.url_api}/tasks/`, task).pipe(
+      tap((resTask) => {
+        const oldTask = this.#task().tasks;
+        oldTask.push(resTask);
+        this.#task.set({
+          loading: false,
+          tasks: oldTask,
+        });
+        this.saveStorage(this.#task().tasks);
+      })
+    );
   }
 
   public getAllTasks(): void {
@@ -85,15 +81,19 @@ export class TasksService {
     );
   }
 
+  public getAllTasksByStudent(id: number): Observable<Task[]> {
+    return this.http.get<Task[]>(
+      `${environment.url_api}/tasks/byStudent/${id}`
+    );
+  }
+
   public updateTask(id: number, task: Partial<Task>) {
     return this.http
       .patch<Task>(`${environment.url_api}/tasks/${id}`, task)
       .pipe(
         tap((resTask) => {
           const oldTask = this.#task().tasks;
-          const index = oldTask.findIndex(
-            (i) => i.id_task === resTask.id_task
-          );
+          const index = oldTask.findIndex((i) => i.id_task === resTask.id_task);
           oldTask[index] = resTask;
           this.#task.set({
             loading: false,

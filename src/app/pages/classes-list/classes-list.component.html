@@ -292,6 +292,8 @@
           [loading]="loadingSubjects()"
           [(ngModel)]="selectedClass.subject"
           placeholder="Seleccione un tipo de estado"
+          [filter]="true"
+          filterBy="subject_name"
           styleClass=" w-full"
           [ngClass]="{'ng-invalid ng-dirty': inputsDirt.subject}"
         >

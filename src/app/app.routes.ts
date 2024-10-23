@@ -37,8 +37,7 @@ export const routes: Routes = [
           {
             path: 'activity',
             title: 'Asistente Virtual',
-            loadComponent: () =>
-              import('./pages/activity/activity.component'),
+            loadComponent: () => import('./pages/activity/activity.component'),
           },
           {
             path: 'subjects-list',
@@ -47,10 +46,22 @@ export const routes: Routes = [
               import('./pages/subjects-list/subjects-list.component'),
           },
           {
+            path: 'grades-student',
+            title: 'Calificaciones del estudiante',
+            loadComponent: () =>
+              import('./pages/grades-student/grades-student.component'),
+          },
+          {
             path: 'class-list',
             title: 'Lista de clases',
             loadComponent: () =>
               import('./pages/classes-list/classes-list.component'),
+          },
+          {
+            path: 'student-details/:id',
+            title: 'Detalles del estudiante',
+            loadComponent: () =>
+              import('./pages/student-details/student-details.component'),
           },
         ],
       },

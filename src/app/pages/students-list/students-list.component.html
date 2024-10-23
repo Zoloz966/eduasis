@@ -37,7 +37,9 @@
     <div
       (click)="layoutService.isMobile() ? op.toggle($event) : ''"
       class="w-full h-4rem flex px-3 surface-50 justify-content-between"
-      [ngClass]="layoutService.isMobile() ? 'cursor-pointer hover:surface-50' : ''"
+      [ngClass]="
+        layoutService.isMobile() ? 'cursor-pointer hover:surface-50' : ''
+      "
     >
       <div class="flex gap-2 align-items-center">
         <i class="pi pi-address-book px-2 text-2xl"></i>
@@ -163,27 +165,45 @@
                 />
               </div>
               }
-              <span>{{ student.name+ ' ' + student.lastname }} </span>
+              <span>{{ student.name + " " + student.lastname }} </span>
             </div>
           </td>
           <td>
             <div class="flex align-items-center">
               @if(student.course){
-                <span>{{ student.course.course_name + ' ' + student.course.parallel }} </span>
+              <span
+                >{{
+                  student.course.course_name + " " + student.course.parallel
+                }}
+              </span>
               } @else {
-                <span class="text-600  text-sm">Sin curso a cargo</span>
+              <span class="text-600 text-sm">Sin curso a cargo</span>
               }
             </div>
           </td>
           <td>
-            <div class="flex align-items-center cursor-pointer"
-            (click)="openWhatsApp(student.code_country + student.tutor_phone)">
-              <i class="pi pi-whatsapp text-green-500 mr-2 "></i>
+            <div
+              class="flex align-items-center cursor-pointer"
+              (click)="openWhatsApp(student.code_country + student.tutor_phone)"
+            >
+              <i class="pi pi-whatsapp text-green-500 mr-2"></i>
               <span class="hover:underline">{{ student.tutor_phone }} </span>
             </div>
           </td>
-          <td>{{ student.created_at.split('T')[0] }}</td>
+          <td>{{ student.created_at.split("T")[0] }}</td>
           <td class="white-space-nowrap">
+            <p-button
+              severity="secondary"
+              icon="pi pi-eye"
+              [rounded]="true"
+              [text]="true"
+              styleClass="h-2rem w-2rem ml-2"
+              (onClick)="
+                router.navigateByUrl(
+                  'edu/student-details/' + student.id_student
+                )
+              "
+            ></p-button>
             <p-button
               severity="secondary"
               icon="pi pi-pencil"
@@ -192,6 +212,52 @@
               styleClass="h-2rem w-2rem ml-2"
               (onClick)="showStudent(student)"
             ></p-button>
+            <p-button
+              severity="secondary"
+              icon="pi pi-plus"
+              [rounded]="true"
+              [text]="true"
+              styleClass="h-2rem w-2rem ml-2"
+              (onClick)="op2.toggle($event)"
+              (onClick)="handlePanelStudent(student)"
+            ></p-button>
+            <p-overlayPanel #op2>
+              <div class="flex gap-2 flex-column align-items-center w-full">
+                <div class="flex gap-1">
+                  <div class="text-xs text-700">Añadir Calificación</div>
+                </div>
+                <div class="flex flex-column w-full gap-3">
+                  <p-dropdown
+                    [options]="classes"
+                    [loading]="loadingClasses"
+                    [(ngModel)]="selectClass"
+                    placeholder="Selecciona la clase"
+                    optionLabel="class_name"
+                    styleClass="w-full"
+                  />
+                  <p-dropdown
+                    styleClass="w-full"
+                    [options]="typeGradeOption"
+                    [(ngModel)]="selectTypeGrade"
+                    placeholder="Selecciona el trimestre"
+                  />
+                  <input
+                    type="number"
+                    pInputText
+                    [(ngModel)]="gradeAmount"
+                    placeholder="Nota a agregar"
+                  />
+
+                  <p-button
+                    severity="success"
+                    styleClass="w-full"
+                    label="Guardar"
+                    (onClick)="op2.toggle($event)"
+                    (onClick)="saveGrade()"
+                  />
+                </div>
+              </div>
+            </p-overlayPanel>
             <p-button
               icon="pi pi-trash"
               severity="secondary"
@@ -207,7 +273,9 @@
       <ng-template pTemplate="emptymessage">
         <tr>
           <td colspan="6">
-            <app-card-empty-list nameEmptyList="estudiantes"></app-card-empty-list>
+            <app-card-empty-list
+              nameEmptyList="estudiantes"
+            ></app-card-empty-list>
           </td>
         </tr>
       </ng-template>
