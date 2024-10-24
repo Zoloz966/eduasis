@@ -52,20 +52,22 @@ export default class AuthComponent {
 
   constructor(private route: Router) {
     this.email = localStorage.getItem('email') || '';
+    this.value = localStorage.getItem('typeUser') || '';
   }
 
-  public handleLogin(){
-    if(this.value === 'student') {
-      this.authStudent()
-      return
+  public handleLogin() {
+    localStorage.setItem('typeUser', this.value);
+    if (this.value === 'student') {
+      this.authStudent();
+      return;
     }
-    if(this.value === 'teacher') {
-      this.authTeacher()
-      return
+    if (this.value === 'teacher') {
+      this.authTeacher();
+      return;
     }
-    if(this.value === 'user') {
-      this.authUser()
-      return
+    if (this.value === 'user') {
+      this.authUser();
+      return;
     }
   }
 
@@ -178,6 +180,4 @@ export default class AuthComponent {
       }
     );
   }
-
-
 }
