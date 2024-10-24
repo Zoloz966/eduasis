@@ -83,10 +83,10 @@
           }
           <div
             class="absolute bottom-0 border-circle -mb-2 border-3 border-white flex justify-content-center align-items-center bg-primary"
-            style="width: 25px; height: 25px"
+            style="width: 25px; height: 25px;"
           ></div>
         </div>
-        <div class="text-base font-medium">
+        <div class="text-base font-medium text-center">
           {{ student.name + " " + student.lastname }}
         </div>
         <div class="text-sm text-500 -mt-1">
@@ -176,6 +176,14 @@
             (uploadHandler)="onUpload($event)"
             [customUpload]="true"
           />
+          <p-button
+            icon="pi pi-check"
+            size="small"
+            [outlined]="true"
+            (onClick)="saveQR()"
+            styleClass="w-10rem mx-2"
+            severity="success"
+          ></p-button>
         </div>
 
         <div class="flex gap-2">
@@ -286,18 +294,14 @@
             >
               <div class="flex gap-1 align-items-center">
                 <i class="pi text-base pi-info-circle"></i>
-                {{
-                  task.description
-                    ? task.description
-                    : "Sin detalles adicionales"
-                }}
+                {{ task.description ? task.description : "Sin detalles
+                adicionales" }}
               </div>
               <div class="flex gap-1 align-items-center">
-                <span>{{
-                  task.class?.course?.course_name +
-                    " " +
-                    task.class?.course?.parallel
-                }}</span>
+                <span
+                  >{{ task.class?.course?.course_name + " " +
+                  task.class?.course?.parallel }}</span
+                >
               </div>
               @if(!task.isCompleted){
               <div class="flex align-items-center gap-2">
@@ -356,9 +360,9 @@
                     : 'pi pi-check-circle mr-2'
                 "
               ></i>
-              <span class="text-primary">{{
-                getTaskCompleted(class.tasks!)
-              }}</span>
+              <span class="text-primary"
+                >{{ getTaskCompleted(class.tasks!) }}</span
+              >
               {{ " / " + class.tasks?.length }}
             </div>
           </div>
@@ -451,9 +455,9 @@
                   *ngIf="rowgroup"
                   [attr.rowspan]="rowspan"
                 >
-                  <span class="font-bold ml-2 text-center">{{
-                    class.subject.type_subject | uppercase
-                  }}</span>
+                  <span class="font-bold ml-2 text-center"
+                    >{{ class.subject.type_subject | uppercase }}</span
+                  >
                 </td>
                 <td>{{ class.class_name }}</td>
                 <td

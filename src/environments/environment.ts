@@ -1,5 +1,5 @@
 export const environment = {
-  production: false,
-  url_api: 'http://localhost:3000',
+  production: true,
+  url_api: 'https://eduasis-api.v-max.site',
   url_public: 'https://eduasis.v-max.site',
 };

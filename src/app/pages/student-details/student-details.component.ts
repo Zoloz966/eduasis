@@ -178,6 +178,21 @@ export default class StudentDetailsComponent implements OnInit {
     }
   }
 
+  public saveQR() {
+    const studentUpdate: Partial<Student> = {
+      qr_image: this.student.qr_image,
+    };
+
+    this.studentsService
+      .updateStudent(+this.idStudent!, studentUpdate)
+      .subscribe((res) => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'exito!'
+        });
+      });
+  }
+
   public goBack(): void {
     window.history.back();
   }
@@ -193,12 +208,12 @@ export default class StudentDetailsComponent implements OnInit {
 
     // Crear el mensaje con el correo y el ejemplo del formato de la contraseña
     const message = `Estimado tutor(a), por favor ingrese a la plataforma para revisar las notas de su hijo. Aquí están sus credenciales de acceso:
-    
-Te invitamos a ingresar a la plataforma para revisar el rendimiento de su hijo. Aquí tienes las credenciales de acceso:  
+
+Te invitamos a ingresar a la plataforma para revisar el rendimiento de su hijo. Aquí tienes las credenciales de acceso:
 
 *Correo:* ${this.student.email}
 *Contraseña:* Recuerda que se forma con las primeras 3 letras del apellido en mayúsculas, seguido de la fecha de nacimiento en formato DD/MM/AAAA.
-    
+
 Por ejemplo, si el apellido es "Ramirez" y la fecha de nacimiento es "01/01/2012", la contraseña será: ${examplePassword}.
   `;
 
