@@ -15,7 +15,7 @@ import {
   DynamicDialogConfig,
   DynamicDialogRef,
 } from 'primeng/dynamicdialog';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmationService, Message, MessageService } from 'primeng/api';
 import { TasksService } from '@services/tasks.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Student } from '@interfaces/student';
@@ -29,6 +29,10 @@ import { ClassesService } from '@services/classes.service';
 import { TableModule } from 'primeng/table';
 import { GradesService } from '@services/grades.service';
 import { Grade, TypeGrade } from '@interfaces/grade';
+import { FileUploadModule } from 'primeng/fileupload';
+import { UploadService } from '@services/upload.service';
+import { environment } from '@environment/environment';
+import { MessagesModule } from 'primeng/messages';
 
 @Component({
   selector: 'app-student-details',
@@ -43,10 +47,12 @@ import { Grade, TypeGrade } from '@interfaces/grade';
     TabViewModule,
     InputTextareaModule,
     TableModule,
+    FileUploadModule,
     SkeletonModule,
     ToastModule,
     ConfirmDialogModule,
     CheckboxModule,
+    MessagesModule,
   ],
   providers: [
     ConfirmationService,
@@ -65,6 +71,7 @@ export default class StudentDetailsComponent implements OnInit {
   public studentsService = inject(StudentsService);
   public tasksService = inject(TasksService);
   public classesService = inject(ClassesService);
+  public uploadService = inject(UploadService);
   public usersService = inject(UsersService);
   public gradesService = inject(GradesService);
   public router = inject(Router);
@@ -83,6 +90,14 @@ export default class StudentDetailsComponent implements OnInit {
   public skeletons = [1, 2, 3];
 
   public grades: Grade[] = [];
+
+  public messages: Message[] = [
+    {
+      severity: 'info',
+      detail: 'El código QR proporcionará acceso sin requerir credenciales.',
+      contentStyleClass: 'text-xs',
+    },
+  ];
 
   ngOnInit(): void {
     this.loading = true;
@@ -146,6 +161,21 @@ export default class StudentDetailsComponent implements OnInit {
         this.loadingDetails = false;
       }
     );
+  }
+
+  public onUpload(event: any) {
+    console.log(event);
+
+    if (event.files.length > 0) {
+      const file = event.files[0];
+      const formData = new FormData();
+      formData.append('file', file);
+
+      this.uploadService.uploadfile(formData).subscribe((res) => {
+        this.student.qr_image =
+          environment.url_public + '/uploads/' + res['filename'];
+      });
+    }
   }
 
   public goBack(): void {

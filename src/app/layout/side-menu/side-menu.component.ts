@@ -26,7 +26,7 @@ import { MenuModule } from 'primeng/menu';
 export class SideMenuComponent {
   public confirmationService = inject(ConfirmationService);
   public layoutService = inject(LayoutService);
-  private usersService = inject(UsersService);
+  public usersService = inject(UsersService);
   public router = inject(Router);
 
   public items = this.usersService.access();

@@ -156,6 +156,26 @@
               {{ student.info ? student.info : "Sin informacion adicional" }}
             </div>
           </div>
+          @if(student.qr_image){
+          <div class="w-7rem h-7rem surface-50 mx-auto">
+            <img
+              class="w-full"
+              [src]="student.qr_image"
+              alt="student-details"
+            />
+          </div>
+          }
+          <p-fileUpload
+            mode="basic"
+            name="file[]"
+            [auto]="true"
+            accept="image/*"
+            styleClass="p-button-secondary h-2rem my-2 p-button-outlined p-button-sm w-full mx-auto"
+            chooseIcon="pi pi-upload text-base"
+            chooseLabel="Subir QR de acceso"
+            (uploadHandler)="onUpload($event)"
+            [customUpload]="true"
+          />
         </div>
 
         <div class="flex gap-2">

@@ -1,23 +1,52 @@
 <div
-  style="height: 3.5rem;"
+  style="height: 3.5rem"
   class="flex w-full gap-5 justify-content-around bg-white shadow-4 px-3 py-2 overflow-auto"
 >
-  @for (item of items; track $index) {
+  @for (item of items; track $index) { @if(item.name === 'Calificaciones'){
+  <div class="flex flex-column align-items-center">
+    <p-button
+      (click)="redirectTo('edu/student-details/' + userService.user()?.id_student!)"
+      [text]="!router.url.includes(item.link)"
+      styleClass="w-3rem h-2rem border-round-2xl"
+      [icon]="
+        router.url.includes(item.link)
+          ? 'pi pi-' + item.icon
+          : 'pi text-700 pi-' + item.icon
+      "
+    />
+    <div
+      [class]="
+        router.url.includes(item.link)
+          ? 'text-primary text-xs text-center white-space-nowrap'
+          : 'text-xs text-center white-space-nowrap text-700'
+      "
+    >
+      {{ item.name }}
+    </div>
+  </div>
+  } @else {
   <div class="flex flex-column align-items-center">
     <p-button
       (click)="redirectTo(item.father + item.link)"
       [text]="!router.url.includes(item.link)"
       styleClass="w-3rem h-2rem border-round-2xl"
-      [icon]="router.url.includes(item.link) ? 'pi pi-' + item.icon : 'pi text-700 pi-' + item.icon"
+      [icon]="
+        router.url.includes(item.link)
+          ? 'pi pi-' + item.icon
+          : 'pi text-700 pi-' + item.icon
+      "
     />
     <div
-      [class]="router.url.includes(item.link) ? 'text-primary text-xs text-center white-space-nowrap' : 'text-xs text-center white-space-nowrap text-700'"
+      [class]="
+        router.url.includes(item.link)
+          ? 'text-primary text-xs text-center white-space-nowrap'
+          : 'text-xs text-center white-space-nowrap text-700'
+      "
     >
       {{ item.name }}
     </div>
   </div>
-  }
-
+  } }
 </div>
 <p-toast position="top-center"></p-toast>
 <p-confirmDialog styleClass="w-auto md:w-5" position="bottom"></p-confirmDialog>

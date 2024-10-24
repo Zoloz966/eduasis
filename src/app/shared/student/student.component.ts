@@ -55,6 +55,7 @@ export default class StudentComponent implements OnInit {
     gender: Gender.Masculino,
     id: '',
     info: '',
+    qr_image: '',
     isEnabled: 1,
     name: '',
     courseIdCourse: 1,

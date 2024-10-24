@@ -17,6 +17,7 @@ export interface Student {
   tutor_phone: string;
   birth_date: Date;
   photo: string;
+  qr_image: string;
   isEnabled: number;
   info: string;
   status?: number;

@@ -1,5 +1,4 @@
-import { Role } from "./role";
-
+import { Role } from './role';
 
 export interface User {
   id_user: number;
@@ -18,6 +17,7 @@ export interface User {
   created_at?: Date;
   updated_at?: Date;
   role?: Role;
+  id_student?: number;
 }
 
 export interface UserResponse {
