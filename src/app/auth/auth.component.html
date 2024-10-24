@@ -27,7 +27,7 @@
         <div class="w-12 mt-7 md:mt-0 text-lg font-semibold text-center">
           ¡A Estudiar! Ingrese ahora
         </div>
-        <div class="w-12 mt-1 flex justify-content-center align-items-center">
+        <div class="white-space-nowrap w-12 mt-1  flex justify-content-center align-items-center">
           <p-selectButton
             [options]="stateOptions"
             [(ngModel)]="value"
@@ -98,7 +98,7 @@
           <p-button
             label="Ingresar"
             styleClass="w-full"
-            (onClick)="authUser()"
+            (onClick)="handleLogin()"
           ></p-button>
         </div>
       </div>

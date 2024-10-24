@@ -57,7 +57,7 @@ export class UsersService {
     this.loadStorage();
   }
 
-  public authLogin(
+  public authLoginUser(
     credentials: UserLogin,
     remember: boolean
   ): Observable<UserResponse> {
@@ -69,6 +69,57 @@ export class UsersService {
 
     return this.http
       .post<UserResponse>(`${environment.url_api}/auth/login`, credentials)
+      .pipe(
+        tap((res) => {
+          this.saveStorage(res);
+
+          this.#state.set({
+            loading: false,
+            user: res.user,
+            token: res.access_token,
+            access: res.user.role!.access,
+          });
+        })
+      );
+  }
+  public authLoginTeacher(
+    credentials: UserLogin,
+    remember: boolean
+  ): Observable<UserResponse> {
+    if (remember) {
+      localStorage.setItem('email', credentials.email);
+    } else {
+      localStorage.removeItem('email');
+    }
+
+    return this.http
+      .post<UserResponse>(`${environment.url_api}/auth/login/teacher`, credentials)
+      .pipe(
+        tap((res) => {
+          this.saveStorage(res);
+
+          this.#state.set({
+            loading: false,
+            user: res.user,
+            token: res.access_token,
+            access: res.user.role!.access,
+          });
+        })
+      );
+  }
+ 
+  public authLoginStudent(
+    credentials: UserLogin,
+    remember: boolean
+  ): Observable<UserResponse> {
+    if (remember) {
+      localStorage.setItem('email', credentials.email);
+    } else {
+      localStorage.removeItem('email');
+    }
+
+    return this.http
+      .post<UserResponse>(`${environment.url_api}/auth/login/student`, credentials)
       .pipe(
         tap((res) => {
           this.saveStorage(res);
