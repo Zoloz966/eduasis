@@ -6,6 +6,7 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { DividerModule } from 'primeng/divider';
+import { LayoutService } from '@services/layout.service';
 
 @Component({
   selector: 'app-virtual-assistant',
@@ -22,6 +23,7 @@ import { DividerModule } from 'primeng/divider';
 })
 export default class VirtualAssistantComponent implements OnInit {
   public usersService = inject(UsersService);
+  public layoutService = inject(LayoutService)
 
   public prompt: string = '';
   public loadingResponse: boolean = false;
