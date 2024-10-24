@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 
 import { InputTextModule } from 'primeng/inputtext';
 import { CheckboxModule } from 'primeng/checkbox';
@@ -16,6 +16,7 @@ import {
   SelectButtonChangeEvent,
   SelectButtonModule,
 } from 'primeng/selectbutton';
+import { StudentsService } from '@services/students.service';
 
 @Component({
   standalone: true,
@@ -35,7 +36,9 @@ import {
 })
 export default class AuthComponent {
   private usersService = inject(UsersService);
+  private studentsService = inject(StudentsService);
   private messageService = inject(MessageService);
+  public route = inject(ActivatedRoute);
 
   public email: string = '';
   public password: string = '';
@@ -50,9 +53,39 @@ export default class AuthComponent {
 
   public value: string = 'user';
 
-  constructor(private route: Router) {
+  public tokenStudent: string | null =
+    this.route.snapshot.paramMap.get('token');
+
+  public loadingToken: boolean = false;
+
+  constructor(private router: Router) {
     this.email = localStorage.getItem('email') || '';
     this.value = localStorage.getItem('typeUser') || '';
+
+    if (this.tokenStudent) {
+      this.loadingToken = true;
+      this.studentsService.getOneStudentByToken(this.tokenStudent).subscribe(
+        (res) => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Token autorizado',
+            detail: `¡Hola estudiante ${res.user.name}! espera un momento porfavor`,
+          });
+          this.usersService.loginByToken(res);
+
+          setTimeout(() => {
+            this.router.navigateByUrl('');
+          }, 3000);
+        },
+        (error) => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: error.error.message,
+          });
+        }
+      );
+    }
   }
 
   public handleLogin() {
@@ -85,7 +118,7 @@ export default class AuthComponent {
           detail: `¡Hola ${res.user.name}! Tu accesso fue exitoso`,
         });
         setTimeout(() => {
-          this.route.navigateByUrl('');
+          this.router.navigateByUrl('');
         }, 3000);
       },
       (error) => {
@@ -121,7 +154,7 @@ export default class AuthComponent {
           detail: `¡Hola maestro ${res.user.name}! Tu accesso fue exitoso`,
         });
         setTimeout(() => {
-          this.route.navigateByUrl('');
+          this.router.navigateByUrl('');
         }, 3000);
       },
       (error) => {
@@ -158,7 +191,7 @@ export default class AuthComponent {
           detail: `¡Hola estudiante: ${res.user.name}! Tu accesso fue exitoso`,
         });
         setTimeout(() => {
-          this.route.navigateByUrl('');
+          this.router.navigateByUrl('');
         }, 3000);
       },
       (error) => {

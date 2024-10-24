@@ -93,7 +93,10 @@ export class UsersService {
     }
 
     return this.http
-      .post<UserResponse>(`${environment.url_api}/auth/login/teacher`, credentials)
+      .post<UserResponse>(
+        `${environment.url_api}/auth/login/teacher`,
+        credentials
+      )
       .pipe(
         tap((res) => {
           this.saveStorage(res);
@@ -107,7 +110,7 @@ export class UsersService {
         })
       );
   }
- 
+
   public authLoginStudent(
     credentials: UserLogin,
     remember: boolean
@@ -119,7 +122,10 @@ export class UsersService {
     }
 
     return this.http
-      .post<UserResponse>(`${environment.url_api}/auth/login/student`, credentials)
+      .post<UserResponse>(
+        `${environment.url_api}/auth/login/student`,
+        credentials
+      )
       .pipe(
         tap((res) => {
           this.saveStorage(res);
@@ -132,6 +138,16 @@ export class UsersService {
           });
         })
       );
+  }
+
+  public loginByToken(resUser: UserResponse) {
+    this.#state.set({
+      loading: false,
+      user: resUser.user,
+      token: resUser.access_token,
+      access: resUser.user.role!.access,
+    });
+    this.saveStorage(resUser);
   }
 
   private saveStorage(resUser: UserResponse) {

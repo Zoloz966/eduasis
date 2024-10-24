@@ -6,6 +6,10 @@ export const routes: Routes = [
     loadComponent: () => import('./auth/auth.component'),
   },
   {
+    path: 'auth/:token',
+    loadComponent: () => import('./auth/auth.component'),
+  },
+  {
     loadComponent: () => import('./layout/layout.component'),
     path: '',
     children: [

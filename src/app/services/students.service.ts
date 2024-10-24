@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, computed, inject, signal } from '@angular/core';
 import { environment } from '@environment/environment';
 import { Student } from '@interfaces/student';
+import { UserResponse } from '@interfaces/user';
 import { Observable, tap } from 'rxjs';
 
 interface StudentService {
@@ -87,6 +88,14 @@ export class StudentsService {
 
   public getOneStudent(id: number): Observable<Student> {
     return this.http.get<Student>(`${environment.url_api}/students/${id}`);
+  }
+
+  public getOneStudentByToken(token: string): Observable<UserResponse> {
+    const tokenAuth = { token };
+    return this.http.post<UserResponse>(
+      `${environment.url_api}/auth/login/byToken`,
+      tokenAuth
+    );
   }
 
   public updateStudent(id: number, student: Partial<Student>) {
