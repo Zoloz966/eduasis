@@ -98,7 +98,6 @@
       styleClass="w-full"
       [label]="config.data ? 'Actualizar tarea' : 'Crear tarea'"
       severity="success"
-      [disabled]="config.data?.disabled ? true : false"
       size="small"
       (onClick)="saveTask()"
     ></p-button>

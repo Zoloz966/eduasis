@@ -127,7 +127,7 @@ export default class ActivityComponent implements OnInit {
           this.messageService.add({
             severity: 'success',
             summary: 'Eliminación exitosa',
-            detail: `Taske ${task.task_tittle} eliminado exitosamente`,
+            detail: `Tarea ${task.task_tittle} eliminado exitosamente`,
           });
         });
       },

@@ -47,7 +47,7 @@ export default class TaskComponent implements OnInit {
   public config = inject(DynamicDialogConfig);
   public ref = inject(DynamicDialogRef);
   public tasksServices = inject(TasksService);
-  public classesService = inject(ClassesService)
+  public classesService = inject(ClassesService);
 
   public task: Task = {
     id_task: 0,
@@ -65,23 +65,24 @@ export default class TaskComponent implements OnInit {
     tittle: false,
   };
 
-  public classes = this.classesService.classes
-  public classesLoading = this.classesService.loading
+  public classes = this.classesService.classes;
+  public classesLoading = this.classesService.loading;
 
   public messages: Message[] = [
     {
       severity: 'info',
-      detail: 'Se creara a tarea para todos los estudiantes registrados al curso',
+      detail:
+        'Se creara a tarea para todos los estudiantes registrados al curso',
     },
   ];
 
   ngOnInit(): void {
-    this.classesService.getAllClasses()
+    this.classesService.getAllClasses();
     if (this.config.data) {
       this.task = {
         ...this.config.data.task,
-        birth_date: (() => {
-          let date = new Date(this.config.data.task.birth_date);
+        end_date: (() => {
+          let date = new Date(this.config.data.task.end_date);
           date.setHours(date.getHours() + 4);
           return date;
         })(),
@@ -103,12 +104,17 @@ export default class TaskComponent implements OnInit {
     if (this.task.id_task === 0) {
       this.tasksServices.postTask(newTask).subscribe((resTask) => {
         this.ref.close(resTask);
+        console.log('Creacion');
       });
     } else {
       this.tasksServices
         .updateTask(this.task.id_task, newTask)
         .subscribe((resTask) => {
+          console.log(resTask);
+          console.log(newTask);
+
           this.ref.close(resTask);
+          console.log('Update');
         });
     }
   }

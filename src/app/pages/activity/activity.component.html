@@ -30,15 +30,15 @@
     <div
       (click)="layoutService.isMobile() ? op.toggle($event) : ''"
       class="w-full h-4rem flex px-3 surface-50 justify-content-between"
-      [ngClass]="layoutService.isMobile() ? 'cursor-pointer hover:surface-50' : ''"
+      [ngClass]="
+        layoutService.isMobile() ? 'cursor-pointer hover:surface-50' : ''
+      "
     >
       <div class="flex gap-2 align-items-center">
         <i class="pi pi-list-check px-2 text-2xl"></i>
         <div class="flex flex-column gap-1">
           <div class="text-xs text-400">Total de tareas</div>
-          <div class="text-sm md:text-base">
-            {{ tasks().length }} tarea(s)
-          </div>
+          <div class="text-sm md:text-base">{{ tasks().length }} tarea(s)</div>
         </div>
       </div>
       @if (!layoutService.isMobile()) {
@@ -160,8 +160,12 @@
             <div class="flex align-items-center">
               @if(task.class){
               <span
-                >{{ task.class.class_name + ' - ' +
-                task.class.course.course_name + task.class.course.parallel }}
+                >{{
+                  task.class.class_name +
+                    " - " +
+                    task.class.course.course_name +
+                    task.class.course.parallel
+                }}
               </span>
               } @else {
               <span class="text-600 text-sm">Sin curso a cargo</span>
@@ -170,10 +174,14 @@
           </td>
           <td>
             <div class="flex align-items-center">
-              <span>{{ task.class.teacher.name + ' ' + task.class.teacher.lastname }} </span>
+              <span
+                >{{
+                  task.class.teacher.name + " " + task.class.teacher.lastname
+                }}
+              </span>
             </div>
           </td>
-          <td>{{ task.created_at.split('T')[0] }}</td>
+          <td>{{ task.created_at.split("T")[0] }}</td>
           <td class="white-space-nowrap">
             <p-button
               severity="secondary"
@@ -205,3 +213,5 @@
     </p-table>
   </div>
 </div>
+<p-toast position="top-center"></p-toast>
+<p-confirmDialog styleClass="w-auto md:w-5" position="bottom"></p-confirmDialog>
