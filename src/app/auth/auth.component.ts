@@ -74,7 +74,7 @@ export default class AuthComponent {
           this.usersService.loginByToken(res);
 
           setTimeout(() => {
-            this.router.navigateByUrl('');
+            this.router.navigateByUrl('edu/student-details/' + res.user.id_student!);
           }, 3000);
         },
         (error) => {
